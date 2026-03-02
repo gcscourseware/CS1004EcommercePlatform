@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LU3:Setting Up an Online Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1500px;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            animation: slideIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .slide-header {
+            margin-bottom: 35px;
+        }
+
+        .slide-number {
+            color: #fc5c7d;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 52px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #fc5c7d;
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 24px;
+            margin-bottom: 18px;
+            margin-top: 25px;
+        }
+
+        h4 {
+            color: #fc5c7d;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        .slide-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            border-radius: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 22px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .hero-text {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(252, 92, 125, 0.15);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #fc5c7d 0%, #6a82fb 100%);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(252, 92, 125, 0.25);
+            border-color: #fc5c7d;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 18px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #fc5c7d;
+        }
+
+        .card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .platform-comparison {
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 800px;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            color: white;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .comparison-table tbody tr {
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-table tbody tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            transform: scale(1.01);
+        }
+
+        .checkmark {
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .crossmark {
+            color: #f56565;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .platform-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            border-left: 6px solid #fc5c7d;
+        }
+
+        .platform-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 30px rgba(252, 92, 125, 0.25);
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .platform-icon {
+            font-size: 50px;
+            flex-shrink: 0;
+        }
+
+        .platform-info h4 {
+            margin: 0;
+            color: #fc5c7d;
+            font-size: 24px;
+        }
+
+        .platform-tagline {
+            color: #718096;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #fc5c7d;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .tag.easy {
+            background: #48bb78;
+        }
+
+        .tag.medium {
+            background: #ed8936;
+        }
+
+        .tag.advanced {
+            background: #9f7aea;
+        }
+
+        .tag.price {
+            background: #4299e1;
+        }
+
+        .best-practice {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #fc5c7d;
+            transition: all 0.3s ease;
+        }
+
+        .best-practice:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(252, 92, 125, 0.2);
+        }
+
+        .best-practice strong {
+            color: #fc5c7d;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .best-practice p {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .example-box {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .example-box strong {
+            color: #2f855a;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .bad-example-box {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .bad-example-box strong {
+            color: #c53030;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(252, 92, 125, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(252, 92, 125, 0.6);
+        }
+
+        .nav-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #cbd5e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot:hover {
+            background: #a0aec0;
+        }
+
+        .dot.active {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            transform: scale(1.4);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            border-left: 5px solid #ffa726;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .tip-box p {
+            color: #5d4037;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #fc5c7d30 0%, #6a82fb30 100%);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: 700;
+            color: #c41e3a;
+        }
+
+        .step-by-step {
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 20px rgba(252, 92, 125, 0.2);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            color: white;
+            min-width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(252, 92, 125, 0.3);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content strong {
+            color: #fc5c7d;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 12px 12px 12px 45px;
+            position: relative;
+            color: #4a5568;
+            line-height: 1.7;
+            margin: 10px 0;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            transform: translateX(10px);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            color: white;
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .security-badge {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .security-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(252, 92, 125, 0.2);
+        }
+
+        .security-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .security-badge h4 {
+            margin: 10px 0;
+            color: #2d3748;
+        }
+
+        .payment-option {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(252, 92, 125, 0.2);
+        }
+
+        .payment-logo {
+            font-size: 50px;
+            flex-shrink: 0;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info h4 {
+            margin-top: 0;
+            color: #fc5c7d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(252, 92, 125, 0.2);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .checklist {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .checklist-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #e2e8f0;
+        }
+
+        .checklist-item:hover {
+            border-left-color: #fc5c7d;
+            transform: translateX(5px);
+        }
+
+        .checklist-item.completed {
+            border-left-color: #48bb78;
+            opacity: 0.7;
+        }
+
+        .interactive-demo {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffffff 100%);
+            border: 2px dashed #fc5c7d;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .content-grid,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 14px;
+            }
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border-left: 5px solid #f56565;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box strong {
+            color: #c53030;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .shipping-tier {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tier-name {
+            font-weight: bold;
+            color: #fc5c7d;
+            font-size: 18px;
+        }
+
+        .tier-price {
+            background: linear-gradient(135deg, #fc5c7d 0%, #6a82fb 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .tier-details {
+            color: #4a5568;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <div class="slide-header">
+                <div class="slide-number">ONLINE BUSINESS LAUNCH GUIDE</div>
+                <h1>LU3:Setting Up an Online Store</h1>
+                <p class="subtitle">Your complete roadmap from platform selection to shipping fulfillment—launch your e-commerce business the right way</p>
+            </div>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">🛍️</span>
+                        <h3>Choosing a Platform</h3>
+                        <p>Compare Shopify, WooCommerce, BigCommerce, and more. Feature analysis, cost breakdown, and setup guidance</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📦</span>
+                        <h3>Product & Inventory</h3>
+                        <p>Master product listings with compelling descriptions, professional images, and smart inventory management</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">💳</span>
+                        <h3>Payment & Security</h3>
+                        <p>Set up secure payment processing, choose the right gateway, and protect customer transactions</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🚚</span>
+                        <h3>Shipping & Fulfillment</h3>
+                        <p>Configure shipping options, manage logistics, and exceed customer delivery expectations</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 40px;">
+                    <div class="stat-box">
+                        <div class="stat-number">24M</div>
+                        <div class="stat-label">Online Stores Worldwide</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">79%</div>
+                        <div class="stat-label">US Consumers Buy Online</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">2-4 Weeks</div>
+                        <div class="stat-label">Average Launch Time</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$500-5K</div>
+                        <div class="stat-label">Typical Setup Cost</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Before You Start:</strong>
+                    <p>Successful online stores don't happen by accident. They're built methodically with the right platform, quality product listings, secure payments, and reliable shipping. This presentation gives you the exact blueprint used by thousands of successful e-commerce entrepreneurs.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()" disabled>Previous</button>
+                <div class="progress-dots" id="progressDots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Platform Comparison -->
+        <div class="slide" data-slide="2">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 1: CHOOSING AN E-COMMERCE PLATFORM</div>
+                <h2>Platform Feature & Cost Comparison</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Your platform choice impacts everything: costs, features, scalability, and ease of use. Here's a comprehensive <span class="highlight">comparison</span> to help you decide.
+                </p>
+
+                <div class="platform-comparison">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Shopify</th>
+                                <th>WooCommerce</th>
+                                <th>BigCommerce</th>
+                                <th>Wix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Monthly Cost</strong></td>
+                                <td>$29-299</td>
+                                <td>$0 (hosting extra)</td>
+                                <td>$29-299</td>
+                                <td>$27-159</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transaction Fees</strong></td>
+                                <td>0-2% (without Shopify Payments)</td>
+                                <td>Depends on gateway</td>
+                                <td>0%</td>
+                                <td>0% (with plan)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ease of Use</strong></td>
+                                <td><span class="checkmark">✓✓✓</span> Very Easy</td>
+                                <td><span class="checkmark">✓✓</span> Moderate</td>
+                                <td><span class="checkmark">✓✓✓</span> Very Easy</td>
+                                <td><span class="checkmark">✓✓✓</span> Very Easy</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hosting Included</strong></td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                                <td><span class="crossmark">✗</span> No</td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Customization</strong></td>
+                                <td>High (themes + apps)</td>
+                                <td>Very High (full control)</td>
+                                <td>High (themes + apps)</td>
+                                <td>Medium (templates)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Built-in Blog</strong></td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                                <td><span class="checkmark">✓</span> Yes (WordPress)</td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                                <td><span class="checkmark">✓</span> Yes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Inventory Management</strong></td>
+                                <td><span class="checkmark">✓</span> Built-in</td>
+                                <td><span class="checkmark">✓</span> Plugins needed</td>
+                                <td><span class="checkmark">✓</span> Advanced</td>
+                                <td><span class="checkmark">✓</span> Basic</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Product Limit</strong></td>
+                                <td>Unlimited</td>
+                                <td>Unlimited</td>
+                                <td>Unlimited</td>
+                                <td>Up to 50,000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>24/7 Support</strong></td>
+                                <td><span class="checkmark">✓</span> Phone + Chat</td>
+                                <td><span class="crossmark">✗</span> Community</td>
+                                <td><span class="checkmark">✓</span> Phone + Chat</td>
+                                <td><span class="checkmark">✓</span> Email + Chat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best For</strong></td>
+                                <td>Most businesses</td>
+                                <td>WordPress users, developers</td>
+                                <td>Growing businesses</td>
+                                <td>Small stores, beginners</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="margin-top: 30px;">Total Cost of Ownership (First Year)</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number">$348</div>
+                        <div class="stat-label">Shopify Basic</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$300</div>
+                        <div class="stat-label">WooCommerce (hosting)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$348</div>
+                        <div class="stat-label">BigCommerce Standard</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$324</div>
+                        <div class="stat-label">Wix Business Basic</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💰 Hidden Costs to Consider:</strong>
+                    <p>Beyond monthly fees, budget for: premium theme ($150-300), essential apps/plugins ($20-100/month), payment processing fees (2.9% + $0.30 per transaction), marketing tools, and potentially developer help. First-year total costs typically range from $1,000-3,000.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Platform Setup -->
+        <div class="slide" data-slide="3">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 1: CHOOSING AN E-COMMERCE PLATFORM</div>
+                <h2>Setting Up Your Store</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Let's walk through setting up a store on the most popular platform: <span class="highlight">Shopify</span>. Most platforms follow similar steps.
+                </p>
+
+                <div class="step-by-step">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <strong>Sign Up & Trial</strong>
+                            <p>Visit Shopify.com → Start free trial → Enter email and store name. You get 3 days free (no credit card required initially). Choose a memorable store name—it becomes your temporary URL: yourstore.myshopify.com</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <strong>Choose Your Theme</strong>
+                            <p>Navigate to Online Store → Themes. Browse free themes (9 included) or purchase premium ($150-350). Look for: mobile responsiveness, good reviews, matches your brand. Popular free themes: Dawn, Sense, Studio.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <strong>Customize Your Design</strong>
+                            <p>Use the Theme Editor to: upload logo, set brand colors, configure homepage layout, add social media links. No coding needed—drag and drop sections. Preview on mobile before publishing.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <strong>Add Essential Pages</strong>
+                            <p>Create: About Us, Contact, Shipping Policy, Return Policy, Privacy Policy, Terms of Service. These build trust and are legally required in many jurisdictions. Use Shopify's policy generator as starting point.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <strong>Configure Settings</strong>
+                            <p>Settings → Store details: Business address, currency, timezone, units. Settings → Payments: Connect payment processor. Settings → Shipping: Define shipping zones and rates. Settings → Taxes: Enable automatic tax calculation.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <strong>Connect Domain</strong>
+                            <p>Buy domain through Shopify ($14/year) or connect existing domain. Settings → Domains → Connect existing domain. Update DNS records (A record and CNAME). Allow 24-48 hours for propagation.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <strong>Install Essential Apps</strong>
+                            <p>Visit Shopify App Store for: Email marketing (Klaviyo, Mailchimp), Reviews (Judge.me, Loox), SEO (Plug in SEO), Live chat (Tidio), Analytics (Lucky Orange). Start with free versions.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <strong>Select a Plan & Launch</strong>
+                            <p>After trial, choose plan: Basic ($29), Shopify ($79), or Advanced ($299). Enter billing info. Remove password protection: Online Store → Preferences → Disable password. Your store is now live!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checklist">
+                    <h3 style="margin-top: 0;">Pre-Launch Checklist</h3>
+                    <div class="checklist-item">✓ At least 10 products added with quality images</div>
+                    <div class="checklist-item">✓ All legal pages created (Privacy, Terms, Returns)</div>
+                    <div class="checklist-item">✓ Payment gateway connected and tested</div>
+                    <div class="checklist-item">✓ Shipping rates configured for all zones</div>
+                    <div class="checklist-item">✓ Test order completed successfully</div>
+                    <div class="checklist-item">✓ Mobile responsiveness checked</div>
+                    <div class="checklist-item">✓ Contact email set up and working</div>
+                    <div class="checklist-item">✓ SSL certificate active (automatic with Shopify)</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Product Descriptions -->
+        <div class="slide" data-slide="4">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 2: PRODUCT LISTING & INVENTORY</div>
+                <h2>Best Practices for Product Descriptions</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Your product description is your salesperson. It must <span class="highlight">inform, persuade, and convert</span>. Here's how to write descriptions that sell.
+                </p>
+
+                <div class="best-practice">
+                    <strong>1. Know Your Audience</strong>
+                    <p>Write in the language your customers use. B2B? Professional and detailed. B2C Fashion? Aspirational and trendy. Parents? Focus on safety and durability. Match tone to target customer.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>2. Lead with Benefits, Not Features</strong>
+                    <p>Features tell, benefits sell. Don't just say "100% organic cotton"—say "Breathable organic cotton keeps you cool all day long." Answer "What's in it for me?"</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>3. Use Scannable Formatting</strong>
+                    <p>Short paragraphs (2-3 lines), bullet points for features, bold key benefits, subheadings for sections. Most people scan, not read. Make important info easy to find.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>4. Include Keywords for SEO</strong>
+                    <p>Research what customers search for. Include primary keyword in title, first sentence, and naturally throughout. But write for humans first, search engines second.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>5. Address Common Objections</strong>
+                    <p>Anticipate questions: sizing, durability, compatibility, care instructions. The more questions you answer, the fewer reasons to not buy.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>6. Add Social Proof</strong>
+                    <p>Mention awards, certifications, number sold, or pull in reviews. "Over 10,000 happy customers" or "As seen in Vogue" builds trust instantly.</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Product Description Formula</h3>
+                <div class="interactive-demo">
+                    <div class="example-box">
+                        <strong>✅ Good Example: Wireless Headphones</strong>
+                        <p><strong>Title:</strong> UltraSound Pro Wireless Headphones - 40Hr Battery, Noise Cancelling</p>
+                        <p><strong>Opening:</strong> Experience studio-quality sound anywhere. These premium wireless headphones deliver crystal-clear audio with active noise cancellation, perfect for your daily commute or focused work sessions.</p>
+                        <p><strong>Key Features (bullets):</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>• 40-hour battery life - A full week on a single charge</li>
+                            <li>• Active noise cancellation - Block out distractions completely</li>
+                            <li>• Premium leather earpads - All-day comfort guaranteed</li>
+                            <li>• Quick charge - 10 min charge = 5 hours playback</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Call to Action:</strong> Join over 50,000 satisfied customers. Order now with free shipping and 30-day returns!</p>
+                    </div>
+
+                    <div class="bad-example-box">
+                        <strong>❌ Bad Example: Same Product</strong>
+                        <p><strong>Title:</strong> Headphones</p>
+                        <p><strong>Description:</strong> These are wireless headphones. They have good sound quality and long battery. Available in black. Buy now.</p>
+                        <p style="margin-top: 10px; font-style: italic;">Problems: Generic title, no benefits, boring language, no details, weak CTA</p>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📝 Pro Writing Tips:</strong>
+                    <p>Use power words (premium, exclusive, guaranteed), create urgency (limited stock, sale ends soon), tell a story (how it solves a problem), and always include dimensions/specifications. Aim for 150-300 words—detailed enough to inform, concise enough to keep attention.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Product Images & Inventory -->
+        <div class="slide" data-slide="5">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 2: PRODUCT LISTING & INVENTORY</div>
+                <h2>Product Images & Inventory Management</h2>
+            </div>
+            <div class="slide-content">
+                <h3>Professional Product Photography</h3>
+                <p class="hero-text">
+                    Images sell products online. <span class="highlight">93% of consumers</span> consider visual appearance the key deciding factor. Invest in quality photos.
+                </p>
+
+                <div class="two-column">
+                    <div>
+                        <h4>Essential Photo Types</h4>
+                        <div class="best-practice">
+                            <strong>1. Hero Shot</strong>
+                            <p>Main product image on white background. Shows full product clearly. This is what appears in search and collections.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>2. Multiple Angles</strong>
+                            <p>Front, back, sides, top, bottom. Show every angle. Customers can't touch—give them visual completeness.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>3. Detail Shots</strong>
+                            <p>Close-ups of texture, materials, stitching, buttons, unique features. Show quality and craftsmanship.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>4. Scale/Size</strong>
+                            <p>Product next to common object (phone, coin, hand) or person using it. Helps visualize actual size.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>5. Lifestyle Images</strong>
+                            <p>Product in use, in context, styled. Helps customer imagine owning it. Emotional connection.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Image Best Practices</h4>
+                        <ul class="feature-list">
+                            <li><strong>Minimum 6-8 images</strong> per product</li>
+                            <li><strong>Square format</strong> (1:1 ratio) or 4:5</li>
+                            <li><strong>High resolution</strong> (2048x2048px minimum)</li>
+                            <li><strong>Consistent lighting</strong> across all photos</li>
+                            <li><strong>White or consistent background</strong></li>
+                            <li><strong>File size optimized</strong> (<200KB each)</li>
+                            <li><strong>Alt text for SEO</strong> ("blue cotton t-shirt front view")</li>
+                            <li><strong>Show color variations</strong></li>
+                        </ul>
+
+                        <div class="tip-box" style="margin-top: 20px;">
+                            <strong>📸 DIY vs Professional:</strong>
+                            <p>Starting out? Smartphone + natural light + white poster board = decent photos. Invest in professional photography ($500-2000) once you validate products sell. Sites like Pixelcut and Remove.bg help with editing.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Inventory Management Essentials</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">📊</span>
+                        <h3>Track Everything</h3>
+                        <p>Use SKUs (Stock Keeping Units) for every product/variant. Monitor stock levels, set low-stock alerts, track cost of goods sold (COGS)</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🔄</span>
+                        <h3>Reorder Points</h3>
+                        <p>Set automatic reorder triggers. When inventory hits X units, reorder Y amount. Prevents stockouts and overselling</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📦</span>
+                        <h3>Warehouse Organization</h3>
+                        <p>Organize by SKU, use bins/shelves, implement FIFO (First In, First Out), regular physical counts to match system</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📈</span>
+                        <h3>Forecasting</h3>
+                        <p>Analyze sales trends, seasonal patterns, growth rates. Use data to predict future inventory needs and avoid dead stock</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Common Inventory Mistakes:</strong>
+                    <p>Overselling (accepting orders without stock), not tracking variants separately, forgetting to account for items in transit, ignoring slow-moving inventory, manual tracking instead of software. Use your platform's built-in inventory management or tools like Stocky, TradeGecko, or Cin7.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: Payment Gateways -->
+        <div class="slide" data-slide="6">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 3: PAYMENT PROCESSING & SECURITY</div>
+                <h2>Payment Gateway Options</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Your payment gateway processes transactions. Choose wisely—it affects <span class="highlight">fees, customer experience, and security</span>.
+                </p>
+
+                <div class="payment-option">
+                    <div class="payment-logo">💳</div>
+                    <div class="payment-info">
+                        <h4>Stripe</h4>
+                        <p><strong>Fees:</strong> 2.9% + $0.30 per transaction</p>
+                        <p><strong>Best For:</strong> Most online stores. Developer-friendly, great API, international support</p>
+                        <p><strong>Pros:</strong> No monthly fees, easy setup, supports 135+ currencies, excellent documentation</p>
+                        <p><strong>Cons:</strong> Can hold funds for high-risk businesses, account freezes possible</p>
+                        <span class="tag">Popular</span>
+                        <span class="tag price">No Monthly Fee</span>
+                        <span class="tag">Global</span>
+                    </div>
+                </div>
+
+                <div class="payment-option">
+                    <div class="payment-logo">🅿️</div>
+                    <div class="payment-info">
+                        <h4>PayPal</h4>
+                        <p><strong>Fees:</strong> 2.9% + $0.30 per transaction (standard); 3.49% + $0.49 (PayPal Checkout)</p>
+                        <p><strong>Best For:</strong> Businesses wanting instant brand recognition, international sales</p>
+                        <p><strong>Pros:</strong> Trusted brand, buyer protection, customers can pay with PayPal balance</p>
+                        <p><strong>Cons:</strong> Higher fees for certain transactions, holds on funds, customer disputes favor buyer</p>
+                        <span class="tag">Trusted</span>
+                        <span class="tag">Quick Setup</span>
+                        <span class="tag">International</span>
+                    </div>
+                </div>
+
+                <div class="payment-option">
+                    <div class="payment-logo">🛍️</div>
+                    <div class="payment-info">
+                        <h4>Shopify Payments (Powered by Stripe)</h4>
+                        <p><strong>Fees:</strong> 2.9% + $0.30 (Basic); 2.7% + $0.30 (Shopify); 2.4% + $0.30 (Advanced)</p>
+                        <p><strong>Best For:</strong> Shopify stores wanting to avoid transaction fees</p>
+                        <p><strong>Pros:</strong> No transaction fees, built-in, faster payouts, single dashboard</p>
+                        <p><strong>Cons:</strong> Only for Shopify, limited countries (17), similar restrictions as Stripe</p>
+                        <span class="tag easy">Integrated</span>
+                        <span class="tag">Lower Fees</span>
+                        <span class="tag">Fast Payout</span>
+                    </div>
+                </div>
+
+                <div class="payment-option">
+                    <div class="payment-logo">⬛</div>
+                    <div class="payment-info">
+                        <h4>Square</h4>
+                        <p><strong>Fees:</strong> 2.9% + $0.30 per transaction</p>
+                        <p><strong>Best For:</strong> Businesses with physical + online presence (unified system)</p>
+                        <p><strong>Pros:</strong> Free POS hardware, unified inventory, great for omnichannel</p>
+                        <p><strong>Cons:</strong> Next-day payout (not instant), limited international support</p>
+                        <span class="tag">Omnichannel</span>
+                        <span class="tag">Free Hardware</span>
+                        <span class="tag">Simple</span>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Choosing the Right Gateway</h3>
+                <div class="two-column">
+                    <div class="best-practice">
+                        <strong>Consider Transaction Volume</strong>
+                        <p>High volume? Negotiate custom rates. Some gateways offer tiered pricing for >$100K/month. Authorize.net and others have monthly fees but lower per-transaction costs.</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>International Sales?</strong>
+                        <p>Stripe and PayPal support most currencies. Check currency conversion fees (1-2% extra). Some countries require local payment methods (Alipay in China, iDEAL in Netherlands).</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Customer Preference</strong>
+                        <p>Offer multiple payment options. 56% of shoppers expect Apple Pay/Google Pay. Digital wallets increase conversion by 20-30%. Consider Buy Now Pay Later (Affirm, Klarna).</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Integration Complexity</strong>
+                        <p>Use platform's native gateway for easiest setup. Third-party gateways require more configuration but might save money on fees. Consider technical expertise needed.</p>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Best Practice:</strong>
+                    <p>Offer at least 2-3 payment methods: credit/debit cards (via Stripe/Square), PayPal, and a digital wallet (Apple Pay/Google Pay). This covers 95%+ of customers. Add Buy Now Pay Later if average order value is $100+.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: Security & Compliance -->
+        <div class="slide" data-slide="7">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 3: PAYMENT PROCESSING & SECURITY</div>
+                <h2>Ensuring Secure Transactions</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Security isn't optional—it's <span class="highlight">mandatory</span>. One data breach destroys trust forever. Here's how to protect customers and your business.
+                </p>
+
+                <div class="content-grid">
+                    <div class="security-badge">
+                        <div class="security-icon">🔒</div>
+                        <h4>SSL Certificate</h4>
+                        <p>Encrypts data between customer and server. HTTPS instead of HTTP. Required for payments. Free with most platforms.</p>
+                    </div>
+                    <div class="security-badge">
+                        <div class="security-icon">💳</div>
+                        <h4>PCI DSS Compliance</h4>
+                        <p>Payment Card Industry Data Security Standard. Required if you handle card data. Use hosted payment pages to offload compliance.</p>
+                    </div>
+                    <div class="security-badge">
+                        <div class="security-icon">🛡️</div>
+                        <h4>Fraud Prevention</h4>
+                        <p>Use AVS (Address Verification), CVV checks, 3D Secure, fraud detection tools. Block suspicious transactions.</p>
+                    </div>
+                    <div class="security-badge">
+                        <div class="security-icon">🔐</div>
+                        <h4>Two-Factor Auth</h4>
+                        <p>Require 2FA for admin access. Prevents unauthorized access to your store backend even if password is compromised.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Security Best Practices</h3>
+                <ul class="feature-list">
+                    <li><strong>Never store card details:</strong> Let payment gateway handle it (tokenization)</li>
+                    <li><strong>Regular software updates:</strong> Platform, plugins, themes—keep everything current</li>
+                    <li><strong>Strong passwords:</strong> 12+ characters, unique for admin accounts, use password manager</li>
+                    <li><strong>Limit admin access:</strong> Only give access to those who need it, with appropriate permission levels</li>
+                    <li><strong>Regular backups:</strong> Daily automated backups, stored off-site, test restoration process</li>
+                    <li><strong>Monitor for breaches:</strong> Use security scanning tools, watch for suspicious activity</li>
+                    <li><strong>Privacy policy:</strong> Clear policy on data collection, storage, usage—GDPR/CCPA compliant</li>
+                    <li><strong>Secure checkout:</strong> Use hosted payment pages, don't redirect away from HTTPS</li>
+                </ul>
+
+                <h3 style="margin-top: 30px;">Handling Refunds & Chargebacks</h3>
+                <div class="two-column">
+                    <div>
+                        <h4 style="color: #fc5c7d;">Refunds</h4>
+                        <div class="best-practice">
+                            <strong>Clear Refund Policy</strong>
+                            <p>Specify timeframe (30 days?), conditions (unused, original packaging?), process (how to request), and timeline (when will they get money back?). Display prominently.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>Process Quickly</strong>
+                            <p>Approve legitimate refund requests within 24-48 hours. Issue refund through original payment method. Confirm with customer. Track refund rate—should be <5%.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>Learn from Returns</strong>
+                            <p>Ask why. Quality issues? Wrong size? Didn't match photos? Use feedback to improve products and listings. Reduce future returns.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: #fc5c7d;">Chargebacks</h4>
+                        <div class="warning-box">
+                            <strong>What is a Chargeback?</strong>
+                            <p>Customer disputes charge with bank, bypassing you. Bank reverses payment + you pay $15-25 fee. Too many chargebacks = lose payment processing.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>Prevent Chargebacks</strong>
+                            <p>Clear product descriptions, fast shipping, tracking numbers, excellent customer service. Most chargebacks are from confusion or frustration—communicate proactively.</p>
+                        </div>
+                        <div class="best-practice">
+                            <strong>Fight Illegitimate Ones</strong>
+                            <p>If you shipped and have proof (tracking shows delivered, customer signature), submit evidence. Include all communications, photos, policies. Win rate: 20-40%.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>🛡️ Security Investment:</strong>
+                    <p>Budget $20-50/month for security: SSL certificate (often free), fraud detection tools, backup service, security monitoring. Small price compared to cost of a data breach (average: $4.35 million) or losing customer trust permanently.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: Shipping Options -->
+        <div class="slide" data-slide="8">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 4: SHIPPING & FULFILLMENT</div>
+                <h2>Shipping Options & Logistics</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Shipping can make or break your business. <span class="highlight">Free shipping</span> increases conversions by 50%+, but must be profitable. Here's how to set up smart shipping.
+                </p>
+
+                <h3>Shipping Strategy Options</h3>
+                <div class="shipping-tier">
+                    <div class="tier-header">
+                        <div class="tier-name">📦 Flat Rate Shipping</div>
+                        <div class="tier-price">$5.99 All Orders</div>
+                    </div>
+                    <div class="tier-details">
+                        <strong>How it works:</strong> Same price for all orders regardless of weight/size<br>
+                        <strong>Best for:</strong> Similar-sized products, predictable costs, simple pricing<br>
+                        <strong>Pros:</strong> Easy to understand, simple to manage, predictable revenue<br>
+                        <strong>Cons:</strong> May lose money on heavy items, leave money on table for light items
+                    </div>
+                </div>
+
+                <div class="shipping-tier">
+                    <div class="tier-header">
+                        <div class="tier-name">📊 Real-Time Carrier Rates</div>
+                        <div class="tier-price">Calculated at Checkout</div>
+                    </div>
+                    <div class="tier-details">
+                        <strong>How it works:</strong> Platform calculates actual USPS/UPS/FedEx rates based on destination and package<br>
+                        <strong>Best for:</strong> Varied product sizes, international shipping, maximizing profit<br>
+                        <strong>Pros:</strong> Fair pricing, no surprises, international support<br>
+                        <strong>Cons:</strong> Can seem expensive, complex setup, requires carrier accounts
+                    </div>
+                </div>
+
+                <div class="shipping-tier">
+                    <div class="tier-header">
+                        <div class="tier-name">🎁 Free Shipping (Threshold)</div>
+                        <div class="tier-price">Free over $50</div>
+                    </div>
+                    <div class="tier-details">
+                        <strong>How it works:</strong> Free shipping when order hits minimum amount, flat rate below<br>
+                        <strong>Best for:</strong> Increasing average order value (AOV), competing with Amazon<br>
+                        <strong>Pros:</strong> Increases order size, great marketing message, reduces cart abandonment<br>
+                        <strong>Cons:</strong> Must build cost into product prices, some customers won't hit threshold
+                    </div>
+                </div>
+
+                <div class="shipping-tier">
+                    <div class="tier-header">
+                        <div class="tier-name">🚀 Free Shipping (Always)</div>
+                        <div class="tier-price">$0 All Orders</div>
+                    </div>
+                    <div class="tier-details">
+                        <strong>How it works:</strong> Shipping cost built into product price, advertise as "free"<br>
+                        <strong>Best for:</strong> High-margin products, Prime-like experience, luxury goods<br>
+                        <strong>Pros:</strong> Highest conversion rates, simplest messaging, competitive advantage<br>
+                        <strong>Cons:</strong> Must have 40%+ margins, might lose to competition on price comparison
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Major Shipping Carriers</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">📮</span>
+                        <h3>USPS</h3>
+                        <p><strong>Best for:</strong> Small/light packages, domestic, affordable rates. Priority Mail (2-3 days) and First Class popular. Flat Rate boxes great for heavy items.</p>
+                        <span class="tag price">Affordable</span>
+                        <span class="tag">PO Boxes</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📦</span>
+                        <h3>UPS</h3>
+                        <p><strong>Best for:</strong> Business shipping, tracking reliability, heavy packages. UPS Ground economical, Next Day Air for urgent. Commercial discounts available.</p>
+                        <span class="tag">Reliable</span>
+                        <span class="tag">B2B</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">✈️</span>
+                        <h3>FedEx</h3>
+                        <p><strong>Best for:</strong> Express shipping, international, high-value items. FedEx Ground competitive, overnight best-in-class. Great tracking and insurance.</p>
+                        <span class="tag">Fast</span>
+                        <span class="tag">International</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📮</span>
+                        <h3>DHL</h3>
+                        <p><strong>Best for:</strong> International shipping, especially Europe. Expensive for domestic, but strong global network. Good for cross-border e-commerce.</p>
+                        <span class="tag">Global</span>
+                        <span class="tag">Europe</span>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💰 Shipping Cost Strategy:</strong>
+                    <p>Calculate true shipping costs (materials + postage + labor), then decide: build into price (easiest), charge exact amount (fairest), or split difference (compromise). Most successful stores use free shipping over $X threshold, where X = 30% above current AOV to encourage upsells.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 9: Customer Expectations -->
+        <div class="slide" data-slide="9">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 4: SHIPPING & FULFILLMENT</div>
+                <h2>Managing Customer Expectations</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Amazon Prime conditioned customers to expect <span class="highlight">fast, free, and traceable shipping</span>. You can't always compete on speed, but you can over-communicate and exceed expectations.
+                </p>
+
+                <h3>Setting Clear Expectations</h3>
+                <div class="best-practice">
+                    <strong>1. Display Processing Time Prominently</strong>
+                    <p>Show processing time on every product page: "Ships within 1-2 business days" or "Allow 3-5 days for customization." Don't hide this in fine print. Processing ≠ shipping time—make the distinction clear.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>2. Show Total Delivery Time</strong>
+                    <p>Processing + shipping = total delivery. "Order today, receive by December 15" is better than "3-5 business days shipping." Give customers a specific date range to expect delivery.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>3. Offer Tracking Automatically</strong>
+                    <p>Email tracking number as soon as label is created. Include carrier name, tracking link, and estimated delivery. 90% of customers track packages—make it easy. Use apps like AfterShip or Route for enhanced tracking pages.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>4. Communicate Delays Proactively</strong>
+                    <p>Delayed shipment? Tell customer before they ask. Holiday rush? Post banner warning. Transparency builds trust—silence breeds frustration. Email updates for any change to expected delivery.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>5. Package with Care</strong>
+                    <p>Proper packaging prevents damage (and returns). Use bubble wrap, appropriate box size, seal well. Include packing slip, thank you card, return instructions. First impression matters—unboxing is part of brand experience.</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Fulfillment Options</h3>
+                <div class="two-column">
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-icon">🏠</div>
+                            <div class="platform-info">
+                                <h4>Self-Fulfillment</h4>
+                                <p class="platform-tagline">You store, pack, and ship everything</p>
+                            </div>
+                        </div>
+                        <p><strong>Best for:</strong> Starting out, <50 orders/month, unique products requiring special care</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Full control, lower costs initially, personal touch, immediate access to inventory</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Time-consuming, doesn't scale, storage space needed, shipping mistakes</p>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-icon">📦</div>
+                            <div class="platform-info">
+                                <h4>Third-Party Fulfillment (3PL)</h4>
+                                <p class="platform-tagline">Outsource storage, packing, and shipping</p>
+                            </div>
+                        </div>
+                        <p><strong>Best for:</strong> >100 orders/month, scaling businesses, multiple sales channels</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Saves time, scalable, professional, often cheaper shipping rates, multi-channel</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Costs (storage + pick/pack fees), less control, setup complexity, minimum volumes often required</p>
+                        <p style="margin-top: 10px;"><strong>Examples:</strong> ShipBob, Fulfillrite, Red Stag Fulfillment</p>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-icon">📮</div>
+                            <div class="platform-info">
+                                <h4>Amazon FBA</h4>
+                                <p class="platform-tagline">Amazon handles everything, even non-Amazon orders</p>
+                            </div>
+                        </div>
+                        <p><strong>Best for:</strong> Selling on Amazon + own site, want Prime badge</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> Access to Amazon customers, Prime eligibility, Amazon handles returns/customer service, fast shipping</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> Expensive fees, strict requirements, long-term storage fees, less control, Amazon owns customer relationship</p>
+                    </div>
+
+                    <div class="platform-card">
+                        <div class="platform-header">
+                            <div class="platform-icon">🏭</div>
+                            <div class="platform-info">
+                                <h4>Dropshipping</h4>
+                                <p class="platform-tagline">Supplier ships directly to customer</p>
+                            </div>
+                        </div>
+                        <p><strong>Best for:</strong> Testing products, low capital, wide product range</p>
+                        <p style="margin-top: 10px;"><strong>Pros:</strong> No inventory investment, no storage needed, easy to scale product range</p>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong> No control over shipping speed/quality, lower margins, supplier issues = your problem, long international shipping times</p>
+                    </div>
+                </div>
+
+                <div class="interactive-demo" style="margin-top: 30px;">
+                    <h3 style="margin-top: 0;">Shipping Timeline Example</h3>
+                    <div class="step-by-step">
+                        <div class="step">
+                            <div class="step-number">📅</div>
+                            <div class="step-content">
+                                <strong>Day 1: Order Placed</strong>
+                                <p>Customer orders Monday morning. Immediate order confirmation email with order number and items.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">⏰</div>
+                            <div class="step-content">
+                                <strong>Day 1-2: Processing</strong>
+                                <p>Pick items from inventory, quality check, pack securely, print shipping label. Email sent when shipped with tracking.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">🚚</div>
+                            <div class="step-content">
+                                <strong>Day 3-5: In Transit</strong>
+                                <p>Carrier handles delivery. Customer tracks progress. Automated delivery confirmation email when package arrives.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">💬</div>
+                            <div class="step-content">
+                                <strong>Day 7: Follow-Up</strong>
+                                <p>Email asking about satisfaction, request review, offer support if any issues. Start relationship for repeat business.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>🎯 Exceeding Expectations:</strong>
+                    <p>Ship faster than promised. If you say 3-5 days, ship in 1-2. Under-promise, over-deliver. Include small unexpected extras: handwritten thank you note, sticker, sample product. These cost pennies but create memorable experiences and drive repeat purchases.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 10: Summary -->
+        <div class="slide" data-slide="10">
+            <div class="slide-header">
+                <div class="slide-number">CONCLUSION</div>
+                <h2>Setting Up an Online Store: Key Takeaways</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">🛍️</span>
+                        <h3>Platform Selection</h3>
+                        <p>Shopify for most businesses (easy, scalable). WooCommerce for WordPress users. Compare features, costs, and scalability before committing.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📦</span>
+                        <h3>Product Excellence</h3>
+                        <p>Write benefit-driven descriptions, use 6-8 professional images per product, maintain accurate inventory tracking, and optimize for SEO.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">💳</span>
+                        <h3>Secure Payments</h3>
+                        <p>Offer multiple payment methods (Stripe, PayPal, digital wallets), ensure SSL and PCI compliance, implement fraud prevention, handle refunds professionally.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🚚</span>
+                        <h3>Smart Shipping</h3>
+                        <p>Set clear expectations, provide tracking automatically, communicate proactively, and consider fulfillment options as you scale.</p>
+                    </div>
+                </div>
+
+                <div class="checklist" style="margin-top: 40px;">
+                    <h3 style="margin-top: 0;">Your Store Launch Checklist</h3>
+                    <div class="checklist-item">✓ Platform selected and account created (free trial started)</div>
+                    <div class="checklist-item">✓ Theme chosen and customized with branding</div>
+                    <div class="checklist-item">✓ All legal pages created (Privacy, Terms, Shipping, Returns)</div>
+                    <div class="checklist-item">✓ At least 10 products listed with quality descriptions and 6+ images each</div>
+                    <div class="checklist-item">✓ Payment gateway(s) connected and tested with real transaction</div>
+                    <div class="checklist-item">✓ Shipping zones configured with accurate rates</div>
+                    <div class="checklist-item">✓ SSL certificate active (HTTPS working)</div>
+                    <div class="checklist-item">✓ Tax settings configured for relevant jurisdictions</div>
+                    <div class="checklist-item">✓ Domain connected and DNS propagated</div>
+                    <div class="checklist-item">✓ Email notifications tested (order confirmations, shipping)</div>
+                    <div class="checklist-item">✓ Mobile responsiveness verified on multiple devices</div>
+                    <div class="checklist-item">✓ Analytics installed (Google Analytics, Facebook Pixel)</div>
+                    <div class="checklist-item">✓ Password protection removed - store is LIVE!</div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 30px;">
+                    <div class="stat-box">
+                        <div class="stat-number">2-4</div>
+                        <div class="stat-label">Weeks to Launch</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$500-5K</div>
+                        <div class="stat-label">Initial Investment</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">3.2%</div>
+                        <div class="stat-label">Average Conversion Rate</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$100-150</div>
+                        <div class="stat-label">Typical First Order Value</div>
+                    </div>
+                </div>
+
+                <div class="tip-box" style="margin-top: 30px;">
+                    <strong>🚀 Next Steps After Launch:</strong>
+                    <p>Your store is just the beginning. Focus on: driving traffic (SEO, paid ads, social media), optimizing conversion rate (A/B testing, improving product pages), providing excellent customer service, and analyzing data to improve. Most stores take 3-6 months to gain traction—persistence and continuous improvement are key to long-term success.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function showSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const targetSlide = document.querySelector(`[data-slide="${slideNumber}"]`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+                currentSlide = slideNumber;
+                updateNavigation();
+                updateProgressDots();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function updateNavigation() {
+            const prevButtons = document.querySelectorAll('.navigation button:first-child');
+            const nextButtons = document.querySelectorAll('.navigation button:last-child');
+            
+            prevButtons.forEach(btn => {
+                btn.disabled = currentSlide === 1;
+            });
+            
+            nextButtons.forEach(btn => {
+                btn.disabled = currentSlide === totalSlides;
+            });
+        }
+
+        function updateProgressDots() {
+            const dotsContainers = document.querySelectorAll('.progress-dots');
+            dotsContainers.forEach(container => {
+                container.innerHTML = '';
+                for (let i = 1; i <= totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    if (i === currentSlide) {
+                        dot.classList.add('active');
+                    }
+                    dot.onclick = () => showSlide(i);
+                    dot.title = `Slide ${i}`;
+                    container.appendChild(dot);
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        updateProgressDots();
+        updateNavigation();
+
+        // Add dynamic interactions
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Interactive checklist
+        document.querySelectorAll('.checklist-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('completed');
+            });
+        });
+    </script>
+</body>
+</html>
