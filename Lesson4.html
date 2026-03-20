@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Marketing Strategies - Interactive Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1500px;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            position: relative;
+            animation: slideIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .slide-header {
+            margin-bottom: 35px;
+        }
+
+        .slide-number {
+            color: #667eea;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 52px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 36px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 24px;
+            margin-bottom: 18px;
+            margin-top: 25px;
+        }
+
+        h4 {
+            color: #667eea;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .slide-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        .slide-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 22px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .hero-text {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 18px;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #667eea;
+        }
+
+        .card p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .channel-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .channel-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .channel-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .channel-icon {
+            font-size: 40px;
+        }
+
+        .channel-name {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .nav-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #cbd5e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot:hover {
+            background: #a0aec0;
+        }
+
+        .dot.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: scale(1.4);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            border-left: 5px solid #ffa726;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .tip-box p {
+            color: #5d4037;
+            line-height: 1.7;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #667eea30 0%, #764ba230 100%);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-weight: 700;
+            color: #5a67d8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .seo-strategy {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .strategy-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .strategy-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 12px 12px 12px 45px;
+            position: relative;
+            color: #4a5568;
+            line-height: 1.7;
+            margin: 10px 0;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            transform: translateX(10px);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 18px;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .email-template {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            margin: -30px -30px 20px -30px;
+        }
+
+        .email-subject {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .email-preview {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .email-body {
+            padding: 20px 0;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        .email-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 20px 0;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .email-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .best-practice {
+            background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+            border-left: 5px solid #48bb78;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .best-practice strong {
+            color: #2f855a;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .avoid-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+            border-left: 5px solid #f56565;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .avoid-box strong {
+            color: #c53030;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .content-example {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .example-type {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .metric-label {
+            color: #718096;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .funnel-stage {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .funnel-stage::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.1;
+            transition: width 0.3s ease;
+        }
+
+        .funnel-stage:nth-child(1)::before { width: 100%; }
+        .funnel-stage:nth-child(2)::before { width: 75%; }
+        .funnel-stage:nth-child(3)::before { width: 50%; }
+        .funnel-stage:nth-child(4)::before { width: 25%; }
+
+        .funnel-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .interactive-example {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border: 2px dashed #667eea;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .content-grid,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .keyword-tool {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .keyword-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .keyword-term {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 18px;
+        }
+
+        .keyword-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .keyword-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .stat-type {
+            font-size: 11px;
+            color: #718096;
+            text-transform: uppercase;
+        }
+
+        .difficulty-badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .difficulty-low {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .difficulty-medium {
+            background: #feebc8;
+            color: #7c2d12;
+        }
+
+        .difficulty-high {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-slide="1">
+            <div class="slide-header">
+                <div class="slide-number">GROWTH & CUSTOMER ACQUISITION</div>
+                <h1>E-Commerce Marketing Strategies</h1>
+                <p class="subtitle">Master the essential marketing channels and tactics to drive traffic, engage customers, and scale your online business</p>
+            </div>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">📢</span>
+                        <h3>Marketing Fundamentals</h3>
+                        <p>Why marketing is critical for e-commerce success and overview of key channels that drive growth</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🔍</span>
+                        <h3>SEO Mastery</h3>
+                        <p>Keyword research, on-page optimization, and link building strategies to rank higher and drive organic traffic</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📧</span>
+                        <h3>Email Marketing</h3>
+                        <p>Build your list, craft high-converting campaigns, and automate sequences that turn subscribers into customers</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📝</span>
+                        <h3>Content Marketing</h3>
+                        <p>Create valuable content through blogs, videos, and more to attract, engage, and convert your audience</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 40px;">
+                    <div class="stat-box">
+                        <div class="stat-number">53%</div>
+                        <div class="stat-label">Traffic from Organic Search</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$42</div>
+                        <div class="stat-label">ROI per $1 Email Spend</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">3x</div>
+                        <div class="stat-label">Leads from Content Marketing</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">81%</div>
+                        <div class="stat-label">Research Online Before Buying</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>💡 Marketing Reality:</strong>
+                    <p>The best product in the world won't sell if nobody knows about it. E-commerce success requires mastering multiple marketing channels—SEO for long-term organic traffic, email for customer retention, and content for building authority and trust. This presentation gives you the complete playbook.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()" disabled>Previous</button>
+                <div class="progress-dots" id="progressDots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 2: Importance of Marketing -->
+        <div class="slide" data-slide="2">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 1: INTRODUCTION TO E-COMMERCE MARKETING</div>
+                <h2>Importance of Marketing in E-Commerce</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    In e-commerce, <span class="highlight">marketing is oxygen</span>. Without customers, you have no business. Marketing is how you attract, convert, and retain those customers at a profitable cost.
+                </p>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">👥</span>
+                        <h3>Customer Acquisition</h3>
+                        <p>Drive targeted traffic to your store. SEO, paid ads, social media, content—all channels work together to bring potential customers to your site</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🎯</span>
+                        <h3>Brand Awareness</h3>
+                        <p>Build recognition and trust. People buy from brands they know and trust. Consistent marketing makes your brand memorable</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">💰</span>
+                        <h3>Revenue Growth</h3>
+                        <p>More traffic + better conversion = more sales. Strategic marketing optimizes both sides of this equation for exponential growth</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🔄</span>
+                        <h3>Customer Retention</h3>
+                        <p>Cheaper to keep than acquire. Email marketing, content, and remarketing keep customers engaged and coming back for repeat purchases</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📊</span>
+                        <h3>Competitive Advantage</h3>
+                        <p>Outmarket, not just outsell. Better marketing wins even with similar products. Dominate search, email, and content to own your niche</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📈</span>
+                        <h3>Data & Insights</h3>
+                        <p>Marketing generates data. Track what works, who buys, and why. Use insights to improve products, messaging, and customer experience</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">The Marketing Funnel</h3>
+                <div class="funnel-stage">
+                    <div class="funnel-content">
+                        <strong style="color: #667eea;">🌐 Awareness</strong>
+                        <p style="margin-top: 8px;">People discover your brand through SEO, content, ads, social media. Goal: Get on their radar.</p>
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-content">
+                        <strong style="color: #667eea;">🤔 Consideration</strong>
+                        <p style="margin-top: 8px;">They're interested and researching. Email nurturing, product content, reviews. Goal: Be their best option.</p>
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-content">
+                        <strong style="color: #667eea;">🛒 Conversion</strong>
+                        <p style="margin-top: 8px;">Ready to buy. Retargeting ads, cart abandonment emails, promotions. Goal: Close the sale.</p>
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-content">
+                        <strong style="color: #667eea;">❤️ Loyalty</strong>
+                        <p style="margin-top: 8px;">Post-purchase engagement. Email campaigns, content, loyalty programs. Goal: Repeat customers and referrals.</p>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📊 Marketing Budget Allocation:</strong>
+                    <p>Most successful e-commerce businesses spend 7-12% of revenue on marketing. New businesses often need 20-30% until they build organic channels. Allocate across: Paid ads (30-40%), SEO/Content (20-30%), Email (10-15%), Social (10-15%), Testing/Other (10-20%).</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 3: Marketing Channels -->
+        <div class="slide" data-slide="3">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 1: INTRODUCTION TO E-COMMERCE MARKETING</div>
+                <h2>Overview of Marketing Channels</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Don't put all eggs in one basket. <span class="highlight">Multi-channel marketing</span> diversifies traffic sources, reduces risk, and compounds growth. Here are the essential channels.
+                </p>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">🔍</div>
+                        <div>
+                            <div class="channel-name">Search Engine Optimization (SEO)</div>
+                            <div style="font-size: 13px; color: #718096;">Organic traffic from Google, Bing, etc.</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Optimize your site to rank higher in search results for relevant keywords</p>
+                    <p><strong>Best for:</strong> Long-term sustainable traffic, informational searches, building authority</p>
+                    <p><strong>Timeline:</strong> 3-6 months to see results, compounds over time</p>
+                    <p><strong>Cost:</strong> Time investment + content creation ($500-5000/month)</p>
+                </div>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">💰</div>
+                        <div>
+                            <div class="channel-name">Paid Advertising (PPC)</div>
+                            <div style="font-size: 13px; color: #718096;">Google Ads, Facebook Ads, Instagram, TikTok</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Pay for clicks or impressions to drive immediate traffic</p>
+                    <p><strong>Best for:</strong> Fast testing, scaling proven winners, seasonal campaigns</p>
+                    <p><strong>Timeline:</strong> Immediate results, requires constant optimization</p>
+                    <p><strong>Cost:</strong> Variable (typically $1-5 CPC, 2-5x ROAS target)</p>
+                </div>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">📧</div>
+                        <div>
+                            <div class="channel-name">Email Marketing</div>
+                            <div style="font-size: 13px; color: #718096;">Direct communication with subscribers</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Build list, send targeted campaigns, automate sequences</p>
+                    <p><strong>Best for:</strong> Customer retention, cart recovery, promotions, loyalty</p>
+                    <p><strong>Timeline:</strong> Immediate for existing list, grows over time</p>
+                    <p><strong>Cost:</strong> Email software ($10-300/month) + list building</p>
+                </div>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">📱</div>
+                        <div>
+                            <div class="channel-name">Social Media Marketing</div>
+                            <div style="font-size: 13px; color: #718096;">Instagram, Facebook, TikTok, Pinterest, Twitter</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Organic posts, stories, community building + paid social ads</p>
+                    <p><strong>Best for:</strong> Brand awareness, community, visual products, influencer partnerships</p>
+                    <p><strong>Timeline:</strong> Organic slow build, paid immediate</p>
+                    <p><strong>Cost:</strong> Time for organic + ad spend for paid ($500-10K+/month)</p>
+                </div>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">📝</div>
+                        <div>
+                            <div class="channel-name">Content Marketing</div>
+                            <div style="font-size: 13px; color: #718096;">Blogs, videos, guides, podcasts</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Create valuable content that attracts and engages target audience</p>
+                    <p><strong>Best for:</strong> SEO, authority building, education, trust</p>
+                    <p><strong>Timeline:</strong> 6-12 months for significant traffic</p>
+                    <p><strong>Cost:</strong> Content creation ($1000-5000/month)</p>
+                </div>
+
+                <div class="channel-card">
+                    <div class="channel-header">
+                        <div class="channel-icon">🤝</div>
+                        <div>
+                            <div class="channel-name">Influencer & Affiliate Marketing</div>
+                            <div style="font-size: 13px; color: #718096;">Partnerships with influencers and affiliates</div>
+                        </div>
+                    </div>
+                    <p><strong>How it works:</strong> Partner with people who promote your products to their audience</p>
+                    <p><strong>Best for:</strong> Quick reach, credibility, specific niches</p>
+                    <p><strong>Timeline:</strong> Can be immediate with right partners</p>
+                    <p><strong>Cost:</strong> Commission-based (10-30%) or flat fees ($100-100K+)</p>
+                </div>
+
+                <div class="tip-box">
+                    <strong>🎯 Channel Selection Strategy:</strong>
+                    <p>Start with 2-3 channels you can execute well. Most e-commerce businesses succeed with: SEO (long-term foundation), Email (retention + revenue), and one paid channel (Facebook/Google for testing). Add more channels after mastering the basics. Depth beats breadth.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 4: Keyword Research -->
+        <div class="slide" data-slide="4">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 2: SEO FOR E-COMMERCE</div>
+                <h2>Keyword Research & On-Page SEO</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    SEO starts with <span class="highlight">keywords</span>—the exact phrases your customers type into Google. Find the right keywords, optimize your pages, and traffic follows.
+                </p>
+
+                <h3>Keyword Research Process</h3>
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">1</div>
+                        <strong style="color: #667eea; font-size: 18px;">Brainstorm Seed Keywords</strong>
+                    </div>
+                    <p>List what customers might search for. Your products, categories, problems you solve. "Running shoes," "wireless headphones," "organic dog food," etc.</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">2</div>
+                        <strong style="color: #667eea; font-size: 18px;">Use Keyword Research Tools</strong>
+                    </div>
+                    <p>Expand your list with tools:</p>
+                    <div style="margin-top: 10px;">
+                        <span class="tool-badge">Google Keyword Planner</span>
+                        <span class="tool-badge">Ahrefs</span>
+                        <span class="tool-badge">SEMrush</span>
+                        <span class="tool-badge">Ubersuggest</span>
+                        <span class="tool-badge">AnswerThePublic</span>
+                    </div>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">3</div>
+                        <strong style="color: #667eea; font-size: 18px;">Analyze Keyword Metrics</strong>
+                    </div>
+                    <p>Evaluate each keyword on: Search Volume (how many searches/month), Keyword Difficulty (how hard to rank), Search Intent (what searcher wants), Commercial Intent (buyer readiness)</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">4</div>
+                        <strong style="color: #667eea; font-size: 18px;">Prioritize & Target</strong>
+                    </div>
+                    <p>Focus on keywords with: Medium-high volume, Low-medium difficulty, Strong commercial intent. Start with "low-hanging fruit" to build momentum.</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Example Keyword Analysis</h3>
+                <div class="keyword-tool">
+                    <div class="keyword-header">
+                        <div class="keyword-term">"best running shoes for beginners"</div>
+                        <div class="difficulty-badge difficulty-medium">Medium</div>
+                    </div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <div class="stat-value">8,100</div>
+                            <div class="stat-type">Monthly Searches</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">45/100</div>
+                            <div class="stat-type">Difficulty</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">$2.50</div>
+                            <div class="stat-type">CPC</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">Commercial</div>
+                            <div class="stat-type">Intent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="keyword-tool">
+                    <div class="keyword-header">
+                        <div class="keyword-term">"organic dog food"</div>
+                        <div class="difficulty-badge difficulty-high">High</div>
+                    </div>
+                    <div class="keyword-stats">
+                        <div class="keyword-stat">
+                            <div class="stat-value">22,200</div>
+                            <div class="stat-type">Monthly Searches</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">68/100</div>
+                            <div class="stat-type">Difficulty</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">$3.80</div>
+                            <div class="stat-type">CPC</div>
+                        </div>
+                        <div class="keyword-stat">
+                            <div class="stat-value">High Commercial</div>
+                            <div class="stat-type">Intent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">On-Page SEO Essentials</h3>
+                <ul class="feature-list">
+                    <li><strong>Title Tag:</strong> Include target keyword, keep under 60 characters. "Best Running Shoes for Beginners 2024 | YourBrand"</li>
+                    <li><strong>Meta Description:</strong> Compelling summary with keyword, 150-160 characters. Increases click-through rate</li>
+                    <li><strong>URL Structure:</strong> Clean, keyword-rich URLs. yoursite.com/running-shoes-beginners (not yoursite.com/p=123)</li>
+                    <li><strong>H1 Heading:</strong> One H1 per page with primary keyword. Clear, descriptive, matches search intent</li>
+                    <li><strong>Content Quality:</strong> Comprehensive, helpful content. 1000+ words for competitive keywords. Answer questions completely</li>
+                    <li><strong>Image Optimization:</strong> Descriptive file names, alt text with keywords, compress for speed</li>
+                    <li><strong>Internal Linking:</strong> Link related pages together. Helps Google understand site structure</li>
+                    <li><strong>Page Speed:</strong> Fast loading (under 3 seconds). Use PageSpeed Insights to identify issues</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>🎯 Quick Win:</strong>
+                    <p>Target long-tail keywords (3-5 words) first. "Best waterproof hiking boots for women" is easier to rank than "hiking boots." Less competition, higher intent, easier conversions. Build momentum with easier keywords before tackling head terms.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 5: Off-Page SEO -->
+        <div class="slide" data-slide="5">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 2: SEO FOR E-COMMERCE</div>
+                <h2>Off-Page SEO Strategies</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Off-page SEO is everything outside your website that affects rankings. The most important: <span class="highlight">backlinks</span>. Google treats links as votes—more quality votes = higher rankings.
+                </p>
+
+                <h3>Link Building Strategies</h3>
+
+                <div class="best-practice">
+                    <strong>1. Create Link-Worthy Content</strong>
+                    <p><strong>Strategy:</strong> Original research, comprehensive guides, infographics, tools, industry reports<br>
+                    <strong>Why it works:</strong> People naturally link to valuable resources. Create something worth linking to<br>
+                    <strong>Example:</strong> "The Complete Guide to Running Shoe Technology" attracts links from running blogs</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>2. Guest Posting</strong>
+                    <p><strong>Strategy:</strong> Write articles for other relevant blogs/sites in exchange for author bio link<br>
+                    <strong>Why it works:</strong> Mutual benefit—they get content, you get exposure + backlink<br>
+                    <strong>Target:</strong> Sites in your niche with DR (Domain Rating) 30+ on Ahrefs</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>3. Broken Link Building</strong>
+                    <p><strong>Strategy:</strong> Find broken links on relevant sites, suggest your content as replacement<br>
+                    <strong>Why it works:</strong> You're helping them fix their site while getting a link<br>
+                    <strong>Tools:</strong> Ahrefs, Check My Links Chrome extension</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>4. Resource Page Link Building</strong>
+                    <p><strong>Strategy:</strong> Find "resources" or "links" pages in your niche, request to be added<br>
+                    <strong>Why it works:</strong> These pages exist to link out to helpful resources<br>
+                    <strong>Search:</strong> "keyword + resources" or "keyword + useful links"</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>5. PR & Digital PR</strong>
+                    <p><strong>Strategy:</strong> Get featured in online publications, news sites, industry blogs<br>
+                    <strong>Why it works:</strong> High-authority sites pass significant ranking power<br>
+                    <strong>Tactics:</strong> HARO (Help a Reporter Out), press releases, newsjacking</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>6. Partner & Supplier Links</strong>
+                    <p><strong>Strategy:</strong> Get links from businesses you work with—suppliers, manufacturers, partners<br>
+                    <strong>Why it works:</strong> Existing relationships = easier asks<br>
+                    <strong>Example:</strong> If you sell Brand X products, ask Brand X for a retailer page link</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>7. Competitor Backlink Analysis</strong>
+                    <p><strong>Strategy:</strong> Find where competitors get links, reach out to same sources<br>
+                    <strong>Why it works:</strong> If they linked to competitor, they might link to you too<br>
+                    <strong>Tools:</strong> Ahrefs, SEMrush—enter competitor URL, see their backlinks</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Quality Over Quantity</h3>
+                <div class="two-column">
+                    <div class="best-practice">
+                        <strong>✅ Good Backlinks</strong>
+                        <p>• From relevant sites in your niche<br>
+                        • High domain authority (DR 40+)<br>
+                        • Natural, editorial placement<br>
+                        • Contextual (within content)<br>
+                        • Diverse anchor text<br>
+                        • Dofollow links</p>
+                    </div>
+                    <div class="avoid-box">
+                        <strong>❌ Bad Backlinks</strong>
+                        <p>• From spam/low-quality sites<br>
+                        • Paid link schemes<br>
+                        • Footer/sidebar links<br>
+                        • Irrelevant sites<br>
+                        • Exact match anchor text spam<br>
+                        • Link farms or directories</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Other Off-Page Factors</h3>
+                <ul class="feature-list">
+                    <li><strong>Brand Mentions:</strong> Even unlinked mentions help. Google sees your brand referenced across web</li>
+                    <li><strong>Social Signals:</strong> While not direct ranking factor, social shares correlate with rankings</li>
+                    <li><strong>Reviews & Ratings:</strong> Google My Business, Yelp, industry sites. Builds authority and trust</li>
+                    <li><strong>Local Citations:</strong> NAP (Name, Address, Phone) consistency across directories. Important for local SEO</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>⚠️ Warning:</strong>
+                    <p>Never buy links or participate in link schemes. Google's algorithm detects unnatural link patterns and will penalize your site. One link from Forbes is worth 100 links from spam sites. Focus on earning quality links through great content and genuine relationships. Takes longer but lasts forever.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 6: Email List Building -->
+        <div class="slide" data-slide="6">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 3: EMAIL MARKETING</div>
+                <h2>Building & Managing an Email List</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Your email list is your <span class="highlight">most valuable asset</span>. You own it (unlike social followers), can reach subscribers anytime, and it generates $42 for every $1 spent. Here's how to build it.
+                </p>
+
+                <h3>List Building Strategies</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">🎁</span>
+                        <h3>Lead Magnets</h3>
+                        <p>Offer something valuable in exchange for email: discount code, free guide, checklist, webinar, quiz results. Make it irresistible and relevant</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">⬆️</span>
+                        <h3>Pop-ups</h3>
+                        <p>Exit-intent, timed, scroll-triggered pop-ups. Annoying but effective (2-5% conversion). Use sparingly with clear value proposition</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📄</span>
+                        <h3>Landing Pages</h3>
+                        <p>Dedicated pages focused on one goal: capture email. Remove distractions, clear headline, strong CTA. Drive traffic with ads or content</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🛒</span>
+                        <h3>Checkout Opt-in</h3>
+                        <p>Pre-checked or prominent opt-in during checkout. "Get exclusive offers and updates." Captures buyers (highest value subscribers)</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📱</span>
+                        <h3>Social Media</h3>
+                        <p>Promote email signup in bio, posts, stories. "Link in bio for 15% off first order." Drive social traffic to email capture</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🎮</span>
+                        <h3>Gamification</h3>
+                        <p>Spin-to-win wheels, quizzes, contests. Interactive and fun. Wheel gives random discount for email—high conversion rates</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Email List Management Best Practices</h3>
+                <ul class="feature-list">
+                    <li><strong>Double Opt-in:</strong> Confirm subscription via email. Higher quality list, better engagement, GDPR compliant</li>
+                    <li><strong>Welcome Series:</strong> Immediate automated emails to new subscribers. Set expectations, deliver lead magnet, make first impression</li>
+                    <li><strong>Segmentation:</strong> Group subscribers by behavior, purchase history, interests. Send targeted relevant emails</li>
+                    <li><strong>Regular Cleaning:</strong> Remove inactive subscribers quarterly. Improves deliverability and engagement rates</li>
+                    <li><strong>Easy Unsubscribe:</strong> Make it simple to leave. Keeps list healthy, compliant, and engaged</li>
+                    <li><strong>Preference Center:</strong> Let subscribers choose email frequency and topics. Reduces unsubscribes</li>
+                    <li><strong>Compliance:</strong> Follow CAN-SPAM, GDPR, CASL laws. Include physical address, unsubscribe link, honor opt-outs</li>
+                </ul>
+
+                <h3 style="margin-top: 30px;">Email Service Providers (ESPs)</h3>
+                <div class="two-column">
+                    <div class="channel-card">
+                        <strong style="color: #667eea;">Klaviyo</strong>
+                        <p style="margin-top: 10px;">Best for e-commerce. Advanced segmentation, flows, A/B testing. Integrates with Shopify/WooCommerce. $20-$700+/month</p>
+                        <span class="tool-badge">E-commerce Focused</span>
+                        <span class="tool-badge">Advanced</span>
+                    </div>
+                    <div class="channel-card">
+                        <strong style="color: #667eea;">Mailchimp</strong>
+                        <p style="margin-top: 10px;">User-friendly, good for beginners. Free up to 500 subscribers. Automation, templates, reporting. $13-$350+/month</p>
+                        <span class="tool-badge">Beginner Friendly</span>
+                        <span class="tool-badge">Free Plan</span>
+                    </div>
+                    <div class="channel-card">
+                        <strong style="color: #667eea;">ConvertKit</strong>
+                        <p style="margin-top: 10px;">Great for content creators. Simple automation, landing pages, forms. Visual workflow builder. $29-$79+/month</p>
+                        <span class="tool-badge">Creator Focus</span>
+                        <span class="tool-badge">Visual Automations</span>
+                    </div>
+                    <div class="channel-card">
+                        <strong style="color: #667eea;">ActiveCampaign</strong>
+                        <p style="margin-top: 10px;">Powerful automation, CRM features. Good for complex sequences. Steeper learning curve. $29-$149+/month</p>
+                        <span class="tool-badge">CRM Included</span>
+                        <span class="tool-badge">Advanced Automation</span>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📊 Growth Targets:</strong>
+                    <p>Aim to capture 2-5% of website visitors as email subscribers. If you get 10,000 visitors/month, target 200-500 new subscribers. Aggressive pop-ups might hit 5-8% but can annoy users. Quality matters more than quantity—engaged subscribers worth 10x unengaged ones.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 7: Email Campaigns -->
+        <div class="slide" data-slide="7">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 3: EMAIL MARKETING</div>
+                <h2>Crafting Effective Email Campaigns</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Great emails get opened, read, and clicked. Poor emails get deleted or marked as spam. Here's how to craft <span class="highlight">high-converting campaigns</span>.
+                </p>
+
+                <h3>Anatomy of a High-Converting Email</h3>
+                <div class="email-template">
+                    <div class="email-header">
+                        <div class="email-subject">🎉 Your exclusive 20% discount is waiting...</div>
+                        <div class="email-preview">Don't miss out on our biggest sale of the year</div>
+                    </div>
+                    <div class="email-body">
+                        <p><strong>Hi [First Name],</strong></p>
+                        <p style="margin-top: 15px;">We noticed you've been eyeing our [Product Category] collection. Good news—we're giving you an exclusive 20% discount, just for you!</p>
+                        <p style="margin-top: 15px;">This is our biggest sale of the year, and as a valued subscriber, you get early access before anyone else.</p>
+                        <div style="background: #f7fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <strong style="color: #667eea; font-size: 24px;">20% OFF</strong><br>
+                            <span style="color: #718096;">Use code: <strong>EXCLUSIVE20</strong></span><br>
+                            <span style="font-size: 14px; color: #a0aec0;">Expires in 48 hours</span>
+                        </div>
+                        <a href="#" class="email-cta">Shop Now & Save 20% →</a>
+                        <p style="margin-top: 20px; font-size: 14px; color: #718096;">P.S. This code works on everything—yes, even sale items. Stack the savings!</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Email Copywriting Essentials</h3>
+
+                <div class="best-practice">
+                    <strong>Subject Line (Makes or Breaks Opens)</strong>
+                    <p>• 40 characters or less (mobile-friendly)<br>
+                    • Create curiosity or urgency<br>
+                    • Use personalization [First Name]<br>
+                    • Avoid spam words (FREE, !!!!, BUY NOW)<br>
+                    • Test emojis (can increase opens 15-20%)<br>
+                    • A/B test different approaches</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>Preview Text (Second Most Important)</strong>
+                    <p>Complements subject line. Shows in inbox preview. Don't waste with "View in browser" or "Unsubscribe." Use to expand on subject line intrigue.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>Personalization</strong>
+                    <p>Use first name, reference past purchases, recommend based on browsing. "Hi Sarah, we thought you'd love these..." feels personal, not broadcast.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>Clear Value Proposition</strong>
+                    <p>Tell them WIIFM (What's In It For Me) immediately. Lead with benefit, not brand. "Save 20% today" not "Check out our newsletter."</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>Single Clear CTA</strong>
+                    <p>One goal per email. Don't confuse with multiple asks. Big, obvious button. Above the fold. Repeat 2-3 times in longer emails.</p>
+                </div>
+
+                <div class="best-practice">
+                    <strong>Mobile Optimization</strong>
+                    <p>65% of emails opened on mobile. Single column layout, large buttons (44px+), short paragraphs, scannable content.</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Types of Email Campaigns</h3>
+                <div class="content-grid">
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">📧</div>
+                        <div class="metric-label">Promotional</div>
+                        <div style="color: #4a5568; font-size: 14px; margin-top: 10px;">Sales, discounts, new products. 20-30% of emails</div>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">📰</div>
+                        <div class="metric-label">Newsletter</div>
+                        <div style="color: #4a5568; font-size: 14px; margin-top: 10px;">Content, updates, tips. Weekly/monthly. Build relationship</div>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🛒</div>
+                        <div class="metric-label">Transactional</div>
+                        <div style="color: #4a5568; font-size: 14px; margin-top: 10px;">Order confirmations, shipping updates. Highest open rates (70-80%)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🎯</div>
+                        <div class="metric-label">Triggered</div>
+                        <div style="color: #4a5568; font-size: 14px; margin-top: 10px;">Automated based on behavior. Cart abandonment, browse abandonment, win-back</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📊 Benchmark Metrics:</strong>
+                    <p>Good email performance: Open rate 15-25%, Click rate 2-5%, Conversion rate 1-3%. Automated emails perform 2-3x better than broadcasts. Subject lines with personalization see 26% higher open rates. Best sending times: Tuesday-Thursday, 10am-11am or 2pm-3pm (test for your audience).</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 8: Email Automation -->
+        <div class="slide" data-slide="8">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 3: EMAIL MARKETING</div>
+                <h2>Automation & Segmentation</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    <span class="highlight">Automation</span> turns your email list into a 24/7 revenue machine. Set up once, earn forever. Here are the must-have automated sequences.
+                </p>
+
+                <h3>Essential Automated Email Flows</h3>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">1</div>
+                        <strong style="color: #667eea; font-size: 18px;">Welcome Series (3-5 emails)</strong>
+                    </div>
+                    <p><strong>Trigger:</strong> New subscriber joins list<br>
+                    <strong>Purpose:</strong> Introduce brand, deliver lead magnet, make first sale<br>
+                    <strong>Timing:</strong> Email 1 (immediate), Email 2 (day 2), Email 3 (day 4), Email 4 (day 7)<br>
+                    <strong>Content:</strong> Welcome + discount → Brand story → Best sellers → Customer testimonials<br>
+                    <strong>Results:</strong> 50%+ open rates, 8-10% conversion rate</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">2</div>
+                        <strong style="color: #667eea; font-size: 18px;">Abandoned Cart (3-4 emails)</strong>
+                    </div>
+                    <p><strong>Trigger:</strong> User adds to cart but doesn't complete purchase<br>
+                    <strong>Purpose:</strong> Recover 15-30% of abandoned carts<br>
+                    <strong>Timing:</strong> 1 hour, 24 hours, 48 hours, 72 hours after abandonment<br>
+                    <strong>Content:</strong> Reminder → Include review/urgency → Offer small discount → Last chance<br>
+                    <strong>Results:</strong> Recovers $10-25 per email sent</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">3</div>
+                        <strong style="color: #667eea; font-size: 18px;">Post-Purchase (4-6 emails)</strong>
+                    </div>
+                    <p><strong>Trigger:</strong> Customer completes purchase<br>
+                    <strong>Purpose:</strong> Onboarding, gather reviews, cross-sell, build loyalty<br>
+                    <strong>Timing:</strong> Immediate (confirmation), day 3 (shipment), day 7 (delivery), day 14 (review), day 30 (repurchase)<br>
+                    <strong>Content:</strong> Thank you → How to use product → Ask for review → Recommend related items<br>
+                    <strong>Results:</strong> 30-40% repeat purchase rate</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">4</div>
+                        <strong style="color: #667eea; font-size: 18px;">Browse Abandonment</strong>
+                    </div>
+                    <p><strong>Trigger:</strong> User views products but doesn't add to cart<br>
+                    <strong>Purpose:</strong> Remind them of products they showed interest in<br>
+                    <strong>Timing:</strong> 24 hours after browsing<br>
+                    <strong>Content:</strong> "Still thinking about [Product]?" Show viewed items + similar products<br>
+                    <strong>Results:</strong> 5-10% conversion rate</p>
+                </div>
+
+                <div class="seo-strategy">
+                    <div class="strategy-header">
+                        <div class="strategy-number">5</div>
+                        <strong style="color: #667eea; font-size: 18px;">Win-Back Campaign</strong>
+                    </div>
+                    <p><strong>Trigger:</strong> Customer hasn't purchased in 60-90 days<br>
+                    <strong>Purpose:</strong> Re-engage inactive customers before they're lost<br>
+                    <strong>Timing:</strong> 60 days, 75 days, 90 days since last purchase<br>
+                    <strong>Content:</strong> "We miss you" → Special offer → "This is your last chance"<br>
+                    <strong>Results:</strong> Recovers 10-20% of lapsed customers</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Segmentation Strategies</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">📊</span>
+                        <h3>Behavioral</h3>
+                        <p>Segment by actions: purchasers vs non-purchasers, product categories browsed, engagement level (openers vs non-openers)</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">👥</span>
+                        <h3>Demographic</h3>
+                        <p>Age, gender, location, language. Send location-specific offers or gender-relevant products</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">💰</span>
+                        <h3>Purchase History</h3>
+                        <p>First-time buyers, repeat customers, VIP (high spenders), lapsed customers. Different messaging for each</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📅</span>
+                        <h3>Lifecycle Stage</h3>
+                        <p>New subscribers, active customers, at-risk, churned. Tailor journey to their stage</p>
+                    </div>
+                </div>
+
+                <div class="interactive-example">
+                    <h3 style="margin-top: 0;">Segmentation Example</h3>
+                    <div class="best-practice">
+                        <strong>Segment: VIP Customers (Spent $500+ in last 6 months)</strong>
+                        <p>Email: "You're one of our top customers! Here's an exclusive 30% off code just for you, plus free shipping and early access to our new collection."</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Segment: Cart Abandoners (Added $100+ items, didn't buy)</strong>
+                        <p>Email: "Complete your order and get 10% off! Those [Product Names] you added are waiting for you. Limited stock remaining."</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Segment: Engaged Non-Buyers (Open emails, haven't purchased)</strong>
+                        <p>Email: "We've noticed you love our content! Here's a special first-time buyer discount to try our products risk-free."</p>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>⚡ Automation ROI:</strong>
+                    <p>Automated emails generate 320% more revenue than non-automated emails. Welcome series alone can generate 30-50% of email revenue. Cart abandonment recovers 15-30% of lost sales. Set these up once in first month—they'll work 24/7 forever. Most ESP platforms include visual workflow builders making setup easier than ever.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 9: Content Marketing -->
+        <div class="slide" data-slide="9">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 4: CONTENT MARKETING</div>
+                <h2>Creating Valuable Content for Customers</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    Content marketing attracts customers through <span class="highlight">value, not interruption</span>. Create helpful content, build trust, and they'll buy when ready. Long-term strategy with compound returns.
+                </p>
+
+                <h3>Why Content Marketing Works</h3>
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">🔍</span>
+                        <h3>SEO Benefits</h3>
+                        <p>Fresh content ranks in Google. Blog posts target keywords, answer questions, attract organic traffic. Compounds over time</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🎓</span>
+                        <h3>Builds Authority</h3>
+                        <p>Helpful content positions you as expert. "They taught me so much, I trust their products." Authority drives sales</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🤝</span>
+                        <h3>Trust & Relationships</h3>
+                        <p>People buy from brands they know and trust. Content builds both before asking for the sale</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">♻️</span>
+                        <h3>Repurposing Power</h3>
+                        <p>One blog post becomes 10 social posts, 5 emails, 1 video, 1 podcast. Multiply content reach and ROI</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Types of Content to Create</h3>
+
+                <div class="content-example">
+                    <div class="example-type">📝 Blog Posts</div>
+                    <p><strong>Best for:</strong> SEO, answering questions, detailed guides</p>
+                    <p><strong>Examples:</strong> "How to Choose the Right Running Shoes," "10 Dog Training Tips for Beginners," "Complete Guide to Organic Skincare"</p>
+                    <p><strong>Length:</strong> 1,500-2,500 words for in-depth posts. 800-1,200 for quick tips</p>
+                    <p><strong>Frequency:</strong> 2-4 posts/week for aggressive SEO. 1 post/week minimum</p>
+                </div>
+
+                <div class="content-example">
+                    <div class="example-type">🎥 Video Content</div>
+                    <p><strong>Best for:</strong> Product demos, tutorials, behind-the-scenes, testimonials</p>
+                    <p><strong>Platforms:</strong> YouTube (SEO + long-form), Instagram/TikTok (short-form), product pages</p>
+                    <p><strong>Examples:</strong> Unboxing, how-to guides, comparison videos, customer stories</p>
+                    <p><strong>Benefit:</strong> 12x more shares than text+images combined. Higher engagement</p>
+                </div>
+
+                <div class="content-example">
+                    <div class="example-type">📊 Infographics</div>
+                    <p><strong>Best for:</strong> Data visualization, step-by-step processes, comparisons</p>
+                    <p><strong>Examples:</strong> "The Complete Coffee Brewing Guide," "Vitamin Comparison Chart"</p>
+                    <p><strong>Benefit:</strong> Highly shareable, earns backlinks, simplifies complex info</p>
+                    <p><strong>Tools:</strong> Canva, Venngage, Piktochart</p>
+                </div>
+
+                <div class="content-example">
+                    <div class="example-type">📚 Ultimate Guides</div>
+                    <p><strong>Best for:</strong> Comprehensive resources, cornerstone content, link magnets</p>
+                    <p><strong>Examples:</strong> "The Complete Guide to Home Coffee Brewing" (5,000+ words)</p>
+                    <p><strong>Benefit:</strong> Ranks for many keywords, attracts links, establishes authority</p>
+                    <p><strong>Format:</strong> Long-form (3,000-10,000 words), well-structured, visuals</p>
+                </div>
+
+                <div class="content-example">
+                    <div class="example-type">🎙️ Podcasts</div>
+                    <p><strong>Best for:</strong> Building community, interviewing experts, brand personality</p>
+                    <p><strong>Benefits:</strong> Intimate connection, loyal audience, repurpose into blog posts</p>
+                    <p><strong>Challenge:</strong> Takes time to build audience, requires consistency</p>
+                </div>
+
+                <div class="content-example">
+                    <div class="example-type">📧 Email Newsletters</div>
+                    <p><strong>Best for:</strong> Nurturing subscribers, driving traffic, building relationships</p>
+                    <p><strong>Content:</strong> Tips, curated content, exclusive insights, product highlights</p>
+                    <p><strong>Frequency:</strong> Weekly or bi-weekly for engaged audience</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Content Creation Framework</h3>
+                <ul class="feature-list">
+                    <li><strong>Solve Problems:</strong> Address customer pain points, questions, objections. What do they struggle with?</li>
+                    <li><strong>Keyword Research:</strong> What are they searching for? Use tools to find topics with search volume</li>
+                    <li><strong>Unique Angle:</strong> Don't just repeat what's out there. Add original research, personal experience, better examples</li>
+                    <li><strong>Quality Over Quantity:</strong> One amazing post beats 10 mediocre ones. Go deep, be comprehensive</li>
+                    <li><strong>Include Visuals:</strong> Images, charts, videos. Visual content gets 94% more views</li>
+                    <li><strong>Actionable Advice:</strong> Give specific, implementable steps. Readers should finish with "I can do this"</li>
+                    <li><strong>Optimize for SEO:</strong> Include keywords naturally, meta descriptions, internal links, alt text</li>
+                    <li><strong>Promote Heavily:</strong> Create once, promote everywhere. Social, email, ads, communities</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>📈 Content ROI Timeline:</strong>
+                    <p>Content marketing is a long game. Expect 6-12 months before significant traffic. But it compounds—year-old posts still drive traffic daily. Companies using content marketing get 3x more leads at 62% lower cost than traditional marketing. Patience pays off exponentially.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 10: Content Measurement -->
+        <div class="slide" data-slide="10">
+            <div class="slide-header">
+                <div class="slide-number">SECTION 4: CONTENT MARKETING</div>
+                <h2>Measuring Content Marketing Effectiveness</h2>
+            </div>
+            <div class="slide-content">
+                <p class="hero-text">
+                    What gets measured gets managed. Track the right <span class="highlight">metrics</span> to understand what content works and double down on winners.
+                </p>
+
+                <h3>Key Content Marketing Metrics</h3>
+
+                <div class="two-column">
+                    <div>
+                        <h4 style="color: #667eea;">Traffic Metrics</h4>
+                        <div class="metric-card">
+                            <div class="metric-label">Organic Traffic</div>
+                            <div class="metric-value">15,234</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Monthly visitors from Google</p>
+                        </div>
+                        <div class="metric-card" style="margin-top: 15px;">
+                            <div class="metric-label">Page Views</div>
+                            <div class="metric-value">45,678</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Total content views per month</p>
+                        </div>
+                        <div class="metric-card" style="margin-top: 15px;">
+                            <div class="metric-label">Avg Session Duration</div>
+                            <div class="metric-value">3m 42s</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Time spent on content</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea;">Engagement Metrics</h4>
+                        <div class="metric-card">
+                            <div class="metric-label">Bounce Rate</div>
+                            <div class="metric-value">45%</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Lower is better (target <50%)</p>
+                        </div>
+                        <div class="metric-card" style="margin-top: 15px;">
+                            <div class="metric-label">Social Shares</div>
+                            <div class="metric-value">1,234</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Shares across all platforms</p>
+                        </div>
+                        <div class="metric-card" style="margin-top: 15px;">
+                            <div class="metric-label">Comments</div>
+                            <div class="metric-value">89</div>
+                            <p style="font-size: 13px; color: #718096; margin-top: 8px;">Reader engagement indicator</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Business Impact Metrics (Most Important)</h3>
+                <div class="content-grid">
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">📧</div>
+                        <div class="metric-label">Email Signups</div>
+                        <div class="metric-value">342</div>
+                        <p style="font-size: 13px; color: #718096; margin-top: 8px;">New subscribers from content</p>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🔗</div>
+                        <div class="metric-label">Backlinks Earned</div>
+                        <div class="metric-value">67</div>
+                        <p style="font-size: 13px; color: #718096; margin-top: 8px;">Quality links from other sites</p>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">💰</div>
+                        <div class="metric-label">Revenue Attribution</div>
+                        <div class="metric-value">$12.4K</div>
+                        <p style="font-size: 13px; color: #718096; margin-top: 8px;">Sales from content traffic</p>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 30px; margin-bottom: 10px;">🎯</div>
+                        <div class="metric-label">Conversion Rate</div>
+                        <div class="metric-value">2.3%</div>
+                        <p style="font-size: 13px; color: #718096; margin-top: 8px;">Content visitors who buy</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Analytics Tools</h3>
+                <div class="two-column">
+                    <div class="best-practice">
+                        <strong>Google Analytics</strong>
+                        <p>Free, essential. Track traffic sources, behavior, conversions. Set up goals, e-commerce tracking, custom reports. Learn: pageviews, bounce rate, conversion paths.</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Google Search Console</strong>
+                        <p>Free SEO tool. Shows keywords you rank for, click-through rates, indexing issues. Critical for understanding search performance.</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Ahrefs / SEMrush</strong>
+                        <p>Paid ($99-399/month). Track rankings, backlinks, competitor content, keyword opportunities. Essential for serious content SEO.</p>
+                    </div>
+                    <div class="best-practice">
+                        <strong>Hotjar</strong>
+                        <p>Heatmaps and session recordings. See exactly how users interact with content. Find what captures attention and what's ignored.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Content Performance Review Framework</h3>
+                <ul class="feature-list">
+                    <li><strong>Monthly Review:</strong> Top 10 posts by traffic, conversions, engagement. What's working?</li>
+                    <li><strong>Quarterly Content Audit:</strong> Update old posts with new info, improve SEO, consolidate thin content</li>
+                    <li><strong>Identify Winners:</strong> Double down on topics/formats that perform. Create more similar content</li>
+                    <li><strong>Kill Losers:</strong> Archive or improve content that doesn't perform after 6 months</li>
+                    <li><strong>A/B Testing:</strong> Test headlines, CTAs, content length, formats. Optimize based on data</li>
+                    <li><strong>Competitive Analysis:</strong> What content ranks above you? How can you create something better?</li>
+                    <li><strong>ROI Calculation:</strong> Content cost ÷ Revenue generated = ROI. Track over time</li>
+                </ul>
+
+                <div class="interactive-example">
+                    <h3 style="margin-top: 0;">Example: Content Performance Dashboard</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead style="background: #667eea; color: white;">
+                            <tr>
+                                <th style="padding: 12px; text-align: left;">Post Title</th>
+                                <th style="padding: 12px; text-align: center;">Traffic</th>
+                                <th style="padding: 12px; text-align: center;">Conversions</th>
+                                <th style="padding: 12px; text-align: center;">Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background: white;">
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px;">Ultimate Guide to Running Shoes</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">5,234</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">87</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #48bb78;">$8,234</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 12px;">How to Train Your Dog</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">3,456</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">34</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #48bb78;">$2,890</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px;">10 Skincare Tips</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">2,123</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #667eea;">23</td>
+                                <td style="padding: 12px; text-align: center; font-weight: bold; color: #48bb78;">$1,567</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📊 Success Formula:</strong>
+                    <p>Track these 5 metrics religiously: 1) Organic traffic growth (month over month), 2) Email subscribers from content, 3) Backlinks earned, 4) Revenue attributed to content, 5) Cost per acquisition from content. If these trending up, your content marketing is working. Adjust strategy based on what the data tells you.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+
+        <!-- Slide 11: Summary -->
+        <div class="slide" data-slide="11">
+            <div class="slide-header">
+                <div class="slide-number">CONCLUSION</div>
+                <h2>E-Commerce Marketing: Key Takeaways</h2>
+            </div>
+            <div class="slide-content">
+                <div class="content-grid">
+                    <div class="card">
+                        <span class="card-icon">📢</span>
+                        <h3>Marketing is Essential</h3>
+                        <p>Without marketing, you have no customers. Master multiple channels—SEO, email, content—to diversify traffic and reduce risk. Allocate 7-12% of revenue to marketing.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🔍</span>
+                        <h3>SEO for Long-Term Growth</h3>
+                        <p>Keyword research, on-page optimization, and quality backlinks drive sustainable organic traffic. Takes 3-6 months but compounds forever. 53% of traffic comes from search.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📧</span>
+                        <h3>Email = $42 ROI per $1</h3>
+                        <p>Build your list aggressively, craft compelling campaigns, automate sequences. Welcome series, cart abandonment, and segmentation drive exponential revenue growth.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">📝</span>
+                        <h3>Content Builds Authority</h3>
+                        <p>Valuable content attracts customers through education, not interruption. Blog posts, videos, guides. Generates 3x leads at 62% lower cost than traditional marketing.</p>
+                    </div>
+                </div>
+
+                <div class="interactive-example" style="margin-top: 40px;">
+                    <h3 style="margin-top: 0;">Your 90-Day Marketing Launch Plan</h3>
+                    
+                    <div class="best-practice">
+                        <strong>Month 1: Foundations</strong>
+                        <p>• Install Google Analytics and Search Console<br>
+                        • Keyword research - find 50 target keywords<br>
+                        • Optimize 10 key pages for SEO<br>
+                        • Set up email marketing platform (Klaviyo/Mailchimp)<br>
+                        • Create lead magnet and capture forms<br>
+                        • Set up welcome email series (3 emails)</p>
+                    </div>
+
+                    <div class="best-practice">
+                        <strong>Month 2: Content & Email</strong>
+                        <p>• Publish 8 blog posts (2/week) targeting keywords<br>
+                        • Set up abandoned cart email sequence<br>
+                        • Create post-purchase email flow<br>
+                        • Start building backlinks (5-10 quality links)<br>
+                        • Grow email list to 500+ subscribers<br>
+                        • Send first newsletter to list</p>
+                    </div>
+
+                    <div class="best-practice">
+                        <strong>Month 3: Scale & Optimize</strong>
+                        <p>• Continue 2 blog posts/week (total 8)<br>
+                        • Launch segmented email campaigns<br>
+                        • Build 10+ more quality backlinks<br>
+                        • Create 1 ultimate guide (3,000+ words)<br>
+                        • Analyze metrics, double down on winners<br>
+                        • Test paid ads if budget allows</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 30px;">
+                    <div class="stat-box">
+                        <div class="stat-number">3-6 Mo</div>
+                        <div class="stat-label">SEO Results Timeline</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">320%</div>
+                        <div class="stat-label">More Revenue from Automation</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">3x</div>
+                        <div class="stat-label">More Leads from Content</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">7-12%</div>
+                        <div class="stat-label">Budget for Marketing</div>
+                    </div>
+                </div>
+
+                <div class="tip-box" style="margin-top: 30px;">
+                    <strong>🚀 Final Wisdom:</strong>
+                    <p>Marketing is not optional—it's how you grow. Start with 2-3 channels you can execute well (typically SEO + Email + one paid channel). Master the fundamentals before adding complexity. Track everything, test constantly, and double down on what works. The compound effect of consistent marketing efforts over 12-24 months creates unstoppable momentum. Your competitors are marketing—will you?</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="nav-button" onclick="prevSlide()">Previous</button>
+                <div class="progress-dots"></div>
+                <button class="nav-button" onclick="nextSlide()" disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 11;
+
+        function showSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const targetSlide = document.querySelector(`[data-slide="${slideNumber}"]`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+                currentSlide = slideNumber;
+                updateNavigation();
+                updateProgressDots();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function updateNavigation() {
+            const prevButtons = document.querySelectorAll('.navigation button:first-child');
+            const nextButtons = document.querySelectorAll('.navigation button:last-child');
+            
+            prevButtons.forEach(btn => {
+                btn.disabled = currentSlide === 1;
+            });
+            
+            nextButtons.forEach(btn => {
+                btn.disabled = currentSlide === totalSlides;
+            });
+        }
+
+        function updateProgressDots() {
+            const dotsContainers = document.querySelectorAll('.progress-dots');
+            dotsContainers.forEach(container => {
+                container.innerHTML = '';
+                for (let i = 1; i <= totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    if (i === currentSlide) {
+                        dot.classList.add('active');
+                    }
+                    dot.onclick = () => showSlide(i);
+                    dot.title = `Slide ${i}`;
+                    container.appendChild(dot);
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        updateProgressDots();
+        updateNavigation();
+
+        // Add dynamic interactions
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

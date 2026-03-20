@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Experience & Retention</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent1: #ff6b35;
+    --accent2: #ffd166;
+    --accent3: #06d6a0;
+    --accent4: #118ab2;
+    --text: #f0eee8;
+    --muted: #7a7a9a;
+    --serif: 'Playfair Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* ── SLIDE ENGINE ── */
+  .deck { width: 100%; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(30px);
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+  .slide.out {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  /* ── AMBIENT BG BLOBS ── */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.18;
+    pointer-events: none;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(30px,20px) scale(1.08); }
+  }
+
+  /* ── NAVIGATION ── */
+  .nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 60px;
+    backdrop-filter: blur(12px);
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent1); border-color: var(--accent1); }
+  .slide-counter {
+    font-size: 13px;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    transition: width 0.5s ease;
+    z-index: 100;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── SLIDE NUMBERS DOTS ── */
+  .dots {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--accent1); transform: scale(1.5); }
+  .dot:hover { background: var(--muted); }
+
+  /* ── KEYBOARD HINT ── */
+  .kbd-hint {
+    position: fixed;
+    top: 20px; right: 30px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    z-index: 100;
+  }
+
+  /* ══════════════════════════════
+     SLIDE 1 — TITLE
+  ══════════════════════════════ */
+  #s1 { background: var(--bg); }
+  #s1 .blob1 { width: 500px; height: 500px; background: var(--accent1); top: -100px; left: -100px; animation-delay: 0s; }
+  #s1 .blob2 { width: 400px; height: 400px; background: var(--accent4); bottom: -80px; right: -80px; animation-delay: 3s; }
+  #s1 .blob3 { width: 300px; height: 300px; background: var(--accent2); top: 40%; left: 55%; animation-delay: 6s; }
+
+  .title-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--accent1);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.2s both;
+  }
+  .title-main {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 88px);
+    font-weight: 900;
+    line-height: 1.05;
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.4s both;
+  }
+  .title-main em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+  .title-sub {
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 300;
+    text-align: center;
+    max-width: 500px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s 0.6s both;
+    margin-bottom: 48px;
+  }
+  .title-tags {
+    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.8s both;
+  }
+  .tag {
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border: 1px solid;
+  }
+  .tag-a { color: var(--accent1); border-color: var(--accent1); background: rgba(255,107,53,0.08); }
+  .tag-b { color: var(--accent3); border-color: var(--accent3); background: rgba(6,214,160,0.08); }
+  .tag-c { color: var(--accent2); border-color: var(--accent2); background: rgba(255,209,102,0.08); }
+
+  /* ══════════════════════════════
+     SLIDE 2 — AGENDA
+  ══════════════════════════════ */
+  #s2 { background: var(--bg); }
+  #s2 .blob1 { width: 600px; height: 600px; background: var(--accent3); bottom: -200px; right: -100px; opacity: 0.12; }
+
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 960px;
+  }
+  .agenda-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .agenda-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .agenda-card:nth-child(1)::before { background: var(--accent1); }
+  .agenda-card:nth-child(2)::before { background: var(--accent3); }
+  .agenda-card:nth-child(3)::before { background: var(--accent2); }
+  .agenda-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .agenda-card:nth-child(1):hover { border-color: var(--accent1); }
+  .agenda-card:nth-child(2):hover { border-color: var(--accent3); }
+  .agenda-card:nth-child(3):hover { border-color: var(--accent2); }
+  .agenda-num {
+    font-family: var(--serif);
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 12px;
+    opacity: 0.15;
+  }
+  .agenda-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .agenda-items { list-style: none; }
+  .agenda-items li {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 4px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .agenda-items li::before {
+    content: '→';
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .slide-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .slide-header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .slide-header h2 {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 700;
+  }
+  .accent-word { color: var(--accent1); }
+  .accent-word-b { color: var(--accent3); }
+  .accent-word-c { color: var(--accent2); }
+
+  /* ══════════════════════════════
+     SLIDE 3 — CX Importance
+  ══════════════════════════════ */
+  #s3 { background: var(--bg); align-items: flex-start; }
+  #s3 .blob1 { width: 500px; height: 500px; background: var(--accent1); top: -100px; left: -150px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    width: 100%;
+    max-width: 1000px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--accent1);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .info-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
+  .info-block h3 {
+    font-family: var(--serif);
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--accent1);
+  }
+  .factor-list { list-style: none; }
+  .factor-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .factor-list li:last-child { border-bottom: none; }
+  .factor-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    background: rgba(255,107,53,0.12);
+  }
+
+  /* ══════════════════════════════
+     SLIDE 4 — UX Strategies
+  ══════════════════════════════ */
+  #s4 { background: var(--bg); }
+  #s4 .blob1 { width: 400px; height: 400px; background: var(--accent4); top: -50px; right: -80px; }
+
+  .ux-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .ux-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 22px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ux-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .ux-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+  .ux-card:hover::after { opacity: 1; }
+  .ux-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .ux-card h4 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .ux-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ══════════════════════════════
+     SLIDE 5 — Customer Service
+  ══════════════════════════════ */
+  #s5 { background: var(--bg); }
+  #s5 .blob1 { width: 500px; height: 500px; background: var(--accent3); bottom: -150px; left: -100px; }
+
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 960px;
+    width: 100%;
+    margin-top: 32px;
+  }
+  .channel-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 16px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .channel-card:hover { border-color: var(--accent3); transform: translateY(-4px); }
+  .channel-icon { font-size: 30px; display: block; margin-bottom: 10px; }
+  .channel-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .channel-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  .badge-green { background: rgba(6,214,160,0.12); color: var(--accent3); border: 1px solid var(--accent3); }
+  .badge-orange { background: rgba(255,107,53,0.12); color: var(--accent1); border: 1px solid var(--accent1); }
+  .badge-blue { background: rgba(17,138,178,0.12); color: var(--accent4); border: 1px solid var(--accent4); }
+
+  /* ══════════════════════════════
+     SLIDE 6 — Best Practices
+  ══════════════════════════════ */
+  #s6 { background: var(--bg); }
+  #s6 .blob1 { width: 450px; height: 450px; background: var(--accent4); top: -100px; right: -100px; }
+
+  .best-practices-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 32px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .practice-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .practice-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .practice-item.active, .practice-item:hover { border-color: var(--accent3); background: rgba(6,214,160,0.05); }
+  .practice-num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(6,214,160,0.12);
+    color: var(--accent3);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .practice-text { font-size: 14px; font-weight: 500; }
+  .practice-detail {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .practice-detail h3 { font-family: var(--serif); font-size: 22px; color: var(--accent3); margin-bottom: 16px; }
+  .practice-detail p { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+  .practice-tips { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .practice-tips li { font-size: 13px; color: var(--text); display: flex; gap: 10px; align-items: flex-start; }
+  .practice-tips li::before { content: '✓'; color: var(--accent3); font-weight: 700; flex-shrink: 0; }
+
+  /* ══════════════════════════════
+     SLIDE 7 — Complaints & Returns
+  ══════════════════════════════ */
+  #s7 { background: var(--bg); }
+  #s7 .blob1 { width: 400px; height: 400px; background: var(--accent2); bottom: -100px; right: -80px; opacity: 0.12; }
+
+  .process-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 960px;
+    width: 100%;
+    margin: 32px 0;
+  }
+  .process-step {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 18px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .process-step:hover { border-color: var(--accent2); transform: translateY(-4px); }
+  .process-arrow {
+    color: var(--muted);
+    font-size: 20px;
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+  .process-step .step-icon { font-size: 28px; display: block; margin-bottom: 10px; }
+  .process-step h4 { font-size: 13px; font-weight: 600; color: var(--accent2); margin-bottom: 6px; }
+  .process-step p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .returns-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 32px;
+    max-width: 960px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  .returns-col h4 { font-size: 13px; font-weight: 600; color: var(--accent2); margin-bottom: 12px; letter-spacing: 0.05em; }
+  .returns-col ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .returns-col ul li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .returns-col ul li::before { content: '·'; color: var(--accent2); font-size: 18px; line-height: 1; }
+
+  /* ══════════════════════════════
+     SLIDE 8 — Loyalty Programs
+  ══════════════════════════════ */
+  #s8 { background: var(--bg); }
+  #s8 .blob1 { width: 500px; height: 500px; background: var(--accent2); top: -150px; left: -100px; opacity: 0.12; }
+
+  .loyalty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .loyalty-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 22px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .loyalty-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.35); border-color: var(--accent2); }
+  .loyalty-tier {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255,209,102,0.12);
+    color: var(--accent2);
+    border: 1px solid rgba(255,209,102,0.3);
+  }
+  .loyalty-card .card-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+  .loyalty-card h4 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .loyalty-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .loyalty-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .loyalty-card ul li { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  .loyalty-card ul li::before { content: '★'; color: var(--accent2); font-size: 10px; }
+
+  /* ══════════════════════════════
+     SLIDE 9 — Personalization
+  ══════════════════════════════ */
+  #s9 { background: var(--bg); }
+  #s9 .blob1 { width: 450px; height: 450px; background: var(--accent1); bottom: -100px; right: -80px; }
+
+  .personalization-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .persona-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
+  .persona-card h3 { font-family: var(--serif); font-size: 20px; color: var(--accent1); margin-bottom: 20px; }
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+  .funnel-step {
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    margin: 3px auto;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .funnel-step:nth-child(1) { width: 100%; background: rgba(255,107,53,0.15); color: var(--accent1); }
+  .funnel-step:nth-child(2) { width: 85%; background: rgba(255,209,102,0.15); color: var(--accent2); }
+  .funnel-step:nth-child(3) { width: 68%; background: rgba(6,214,160,0.15); color: var(--accent3); }
+  .funnel-step:nth-child(4) { width: 50%; background: rgba(17,138,178,0.15); color: var(--accent4); }
+  .funnel-step:nth-child(5) { width: 34%; background: rgba(255,107,53,0.25); color: var(--accent1); }
+  .funnel-step:hover { filter: brightness(1.3); transform: scaleX(1.02); }
+  .tactics-stack { display: flex; flex-direction: column; gap: 12px; }
+  .tactic {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .tactic-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    background: rgba(255,107,53,0.1);
+  }
+  .tactic h5 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .tactic p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ══════════════════════════════
+     SLIDE 10 — Repeat Business
+  ══════════════════════════════ */
+  #s10 { background: var(--bg); }
+  #s10 .blob1 { width: 500px; height: 500px; background: var(--accent3); top: -100px; right: -100px; opacity: 0.12; }
+
+  .repeat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .repeat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 26px 22px;
+    transition: all 0.3s;
+  }
+  .repeat-card:hover { border-color: var(--accent3); transform: translateY(-4px); }
+  .repeat-metric {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .repeat-metric-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--accent3);
+    line-height: 1;
+  }
+  .repeat-metric-label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .repeat-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  .repeat-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .repeat-card ul li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .repeat-card ul li::before { content: '→'; color: var(--accent3); flex-shrink: 0; }
+
+  /* ══════════════════════════════
+     SLIDE 11 — Summary
+  ══════════════════════════════ */
+  #s11 { background: var(--bg); }
+  #s11 .blob1 { width: 600px; height: 600px; background: var(--accent1); top: -200px; left: -200px; opacity: 0.1; }
+  #s11 .blob2 { width: 500px; height: 500px; background: var(--accent3); bottom: -150px; right: -150px; opacity: 0.1; }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 960px;
+    width: 100%;
+    margin-bottom: 32px;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .summary-card:nth-child(1)::before { background: var(--accent1); }
+  .summary-card:nth-child(2)::before { background: var(--accent3); }
+  .summary-card:nth-child(3)::before { background: var(--accent2); }
+  .summary-card .sum-num {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 900;
+    opacity: 0.1;
+    line-height: 1;
+  }
+  .summary-card h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 12px; }
+  .summary-card ul { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 6px; }
+  .summary-card ul li { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .summary-card ul li::before { content: '·'; font-size: 18px; line-height: 1; }
+  .summary-card:nth-child(1) ul li::before { color: var(--accent1); }
+  .summary-card:nth-child(2) ul li::before { color: var(--accent3); }
+  .summary-card:nth-child(3) ul li::before { color: var(--accent2); }
+  .closing-quote {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--muted);
+    text-align: center;
+    max-width: 600px;
+  }
+  .closing-quote span { color: var(--text); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide.active .agenda-card:nth-child(1) { animation: fadeUp 0.5s 0.1s both; }
+  .slide.active .agenda-card:nth-child(2) { animation: fadeUp 0.5s 0.25s both; }
+  .slide.active .agenda-card:nth-child(3) { animation: fadeUp 0.5s 0.4s both; }
+  .slide.active .ux-card:nth-child(1) { animation: fadeUp 0.5s 0.1s both; }
+  .slide.active .ux-card:nth-child(2) { animation: fadeUp 0.5s 0.2s both; }
+  .slide.active .ux-card:nth-child(3) { animation: fadeUp 0.5s 0.3s both; }
+  .slide.active .ux-card:nth-child(4) { animation: fadeUp 0.5s 0.4s both; }
+  .slide.active .ux-card:nth-child(5) { animation: fadeUp 0.5s 0.5s both; }
+  .slide.active .ux-card:nth-child(6) { animation: fadeUp 0.5s 0.6s both; }
+  .slide.active .channel-card:nth-child(1) { animation: fadeUp 0.4s 0.1s both; }
+  .slide.active .channel-card:nth-child(2) { animation: fadeUp 0.4s 0.2s both; }
+  .slide.active .channel-card:nth-child(3) { animation: fadeUp 0.4s 0.3s both; }
+  .slide.active .channel-card:nth-child(4) { animation: fadeUp 0.4s 0.4s both; }
+  .slide.active .process-step { animation: fadeUp 0.5s 0.2s both; }
+  .slide.active .loyalty-card:nth-child(1) { animation: fadeUp 0.5s 0.1s both; }
+  .slide.active .loyalty-card:nth-child(2) { animation: fadeUp 0.5s 0.25s both; }
+  .slide.active .loyalty-card:nth-child(3) { animation: fadeUp 0.5s 0.4s both; }
+  .slide.active .repeat-card:nth-child(1) { animation: fadeUp 0.5s 0.1s both; }
+  .slide.active .repeat-card:nth-child(2) { animation: fadeUp 0.5s 0.25s both; }
+  .slide.active .repeat-card:nth-child(3) { animation: fadeUp 0.5s 0.4s both; }
+  .slide.active .summary-card:nth-child(1) { animation: fadeUp 0.5s 0.1s both; }
+  .slide.active .summary-card:nth-child(2) { animation: fadeUp 0.5s 0.25s both; }
+  .slide.active .summary-card:nth-child(3) { animation: fadeUp 0.5s 0.4s both; }
+
+  /* Slide title label */
+  .slide-label {
+    position: fixed;
+    top: 24px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="dots" id="dots"></div>
+<div class="kbd-hint">← → arrow keys to navigate</div>
+<div class="slide-label" id="slideLabel"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide" id="s1">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="title-eyebrow">E-Commerce Strategy Series</div>
+    <h1 class="title-main">Customer <em>Experience</em><br>& Retention</h1>
+    <p class="title-sub">Building lasting relationships that drive growth, loyalty, and sustainable competitive advantage in modern e-commerce.</p>
+    <div class="title-tags">
+      <span class="tag tag-a">UX & Experience</span>
+      <span class="tag tag-b">Customer Service</span>
+      <span class="tag tag-c">Loyalty & Growth</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: AGENDA -->
+  <div class="slide" id="s2">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Overview</div>
+      <h2>What We'll <span class="accent-word">Cover</span></h2>
+    </div>
+    <div class="agenda-grid">
+      <div class="agenda-card">
+        <div class="agenda-num" style="color:var(--accent1)">01</div>
+        <div class="agenda-title">Importance of Customer Experience in E-Commerce</div>
+        <ul class="agenda-items">
+          <li>Factors affecting customer experience</li>
+          <li>Strategies for improving UX</li>
+        </ul>
+      </div>
+      <div class="agenda-card">
+        <div class="agenda-num" style="color:var(--accent3)">02</div>
+        <div class="agenda-title">Customer Service & Support</div>
+        <ul class="agenda-items">
+          <li>Setting up service channels</li>
+          <li>Best practices for support</li>
+          <li>Handling complaints & returns</li>
+        </ul>
+      </div>
+      <div class="agenda-card">
+        <div class="agenda-num" style="color:var(--accent2)">03</div>
+        <div class="agenda-title">Building Customer Loyalty</div>
+        <ul class="agenda-items">
+          <li>Loyalty programs & incentives</li>
+          <li>Personalization & targeted marketing</li>
+          <li>Strategies for repeat business</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: CX IMPORTANCE + FACTORS -->
+  <div class="slide" id="s3">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 01 — Section A</div>
+      <h2>Why CX <span class="accent-word">Matters</span> & What Shapes It</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="stat-grid" style="margin-bottom:20px;">
+          <div class="stat-card">
+            <span class="stat-num">86%</span>
+            <span class="stat-label">of buyers pay more for a great experience</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">5×</span>
+            <span class="stat-label">more costly to acquire vs retain a customer</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">73%</span>
+            <span class="stat-label">of consumers cite CX as a purchase driver</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">1.5×</span>
+            <span class="stat-label">higher revenue growth for CX leaders</span>
+          </div>
+        </div>
+      </div>
+      <div class="info-block">
+        <h3>Factors Affecting CX</h3>
+        <ul class="factor-list">
+          <li><div class="factor-icon">🌐</div><div><strong>Website Usability</strong> — Intuitive navigation, fast load times, mobile responsiveness</div></li>
+          <li><div class="factor-icon">🔍</div><div><strong>Product Discovery</strong> — Search accuracy, filtering options, recommendations</div></li>
+          <li><div class="factor-icon">🛒</div><div><strong>Checkout Experience</strong> — Streamlined process, multiple payment options, security</div></li>
+          <li><div class="factor-icon">📦</div><div><strong>Delivery & Fulfillment</strong> — Speed, tracking visibility, packaging quality</div></li>
+          <li><div class="factor-icon">💬</div><div><strong>Post-purchase Support</strong> — Ease of returns, responsive help, follow-ups</div></li>
+          <li><div class="factor-icon">🎨</div><div><strong>Brand Perception</strong> — Visual identity, trust signals, social proof</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: UX STRATEGIES -->
+  <div class="slide" id="s4">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 01 — Section B</div>
+      <h2>Strategies for Improving <span class="accent-word">UX</span></h2>
+    </div>
+    <div class="ux-grid">
+      <div class="ux-card">
+        <span class="ux-icon">⚡</span>
+        <h4>Performance Optimization</h4>
+        <p>Target under 3-second load times. Compress images, leverage CDNs, and implement lazy loading to reduce bounce rates dramatically.</p>
+      </div>
+      <div class="ux-card">
+        <span class="ux-icon">📱</span>
+        <h4>Mobile-First Design</h4>
+        <p>Over 70% of e-commerce traffic is mobile. Design thumb-friendly interfaces with large tap targets and streamlined mobile checkout.</p>
+      </div>
+      <div class="ux-card">
+        <span class="ux-icon">🧭</span>
+        <h4>Intuitive Navigation</h4>
+        <p>Clear categories, persistent search, breadcrumbs, and smart filtering help customers find products in under 3 clicks.</p>
+      </div>
+      <div class="ux-card">
+        <span class="ux-icon">🤖</span>
+        <h4>AI-Powered Search</h4>
+        <p>Natural language search, typo tolerance, and visual search capabilities increase product discovery and conversion rates.</p>
+      </div>
+      <div class="ux-card">
+        <span class="ux-icon">✅</span>
+        <h4>Frictionless Checkout</h4>
+        <p>Guest checkout, saved payment methods, one-click reorder, and multiple payment options reduce cart abandonment.</p>
+      </div>
+      <div class="ux-card">
+        <span class="ux-icon">♿</span>
+        <h4>Accessibility & Trust</h4>
+        <p>WCAG compliance, clear trust badges, transparent pricing, and authentic reviews build confidence and widen your audience.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: CUSTOMER SERVICE CHANNELS -->
+  <div class="slide" id="s5">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 02 — Section A</div>
+      <h2>Setting Up <span class="accent-word-b">Service Channels</span></h2>
+    </div>
+    <div class="channels-grid">
+      <div class="channel-card">
+        <span class="channel-icon">💬</span>
+        <h4>Live Chat</h4>
+        <p>Real-time support on your website. Ideal for pre-purchase questions and immediate issue resolution.</p>
+        <span class="badge badge-green">High Impact</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">📧</span>
+        <h4>Email Support</h4>
+        <p>Formal channel for detailed inquiries, order issues, and follow-up communications with documented history.</p>
+        <span class="badge badge-blue">Essential</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">📞</span>
+        <h4>Phone Support</h4>
+        <p>Personal touch for complex issues and high-value customers. Builds trust and resolves escalations effectively.</p>
+        <span class="badge badge-orange">Premium Tier</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">🤖</span>
+        <h4>AI Chatbot</h4>
+        <p>24/7 automated responses for FAQs, order tracking, and routing. Scales support without adding headcount.</p>
+        <span class="badge badge-green">24/7 Coverage</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">📱</span>
+        <h4>Social Media</h4>
+        <p>Monitor and respond on Instagram, Facebook & Twitter. Public resolution demonstrates responsiveness to all.</p>
+        <span class="badge badge-blue">Brand Visibility</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">📚</span>
+        <h4>Self-Service Portal</h4>
+        <p>Knowledge base, FAQs, video tutorials, and community forums that let customers solve issues independently.</p>
+        <span class="badge badge-green">Scalable</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">💬</span>
+        <h4>SMS / WhatsApp</h4>
+        <p>Order updates, delivery notifications, and quick support via messaging apps customers already use daily.</p>
+        <span class="badge badge-orange">High Open Rate</span>
+      </div>
+      <div class="channel-card">
+        <span class="channel-icon">🎫</span>
+        <h4>Ticket System</h4>
+        <p>Centralised helpdesk to track, assign, and resolve issues with SLA monitoring and team accountability.</p>
+        <span class="badge badge-blue">Operations</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: BEST PRACTICES -->
+  <div class="slide" id="s6">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 02 — Section B</div>
+      <h2>Best Practices for <span class="accent-word-b">Customer Support</span></h2>
+    </div>
+    <div class="best-practices-layout">
+      <ul class="practice-list" id="practiceList">
+        <li class="practice-item active" onclick="selectPractice(0)"><div class="practice-num">1</div><div class="practice-text">Set clear response SLAs</div></li>
+        <li class="practice-item" onclick="selectPractice(1)"><div class="practice-num">2</div><div class="practice-text">Train with empathy-first frameworks</div></li>
+        <li class="practice-item" onclick="selectPractice(2)"><div class="practice-num">3</div><div class="practice-text">Use customer data for context</div></li>
+        <li class="practice-item" onclick="selectPractice(3)"><div class="practice-num">4</div><div class="practice-text">Measure & act on CSAT scores</div></li>
+        <li class="practice-item" onclick="selectPractice(4)"><div class="practice-num">5</div><div class="practice-text">Build a proactive support culture</div></li>
+      </ul>
+      <div class="practice-detail" id="practiceDetail">
+        <h3 id="pdTitle">Set Clear Response SLAs</h3>
+        <p id="pdDesc">Define and communicate service level agreements for each channel. Customers expect email within 24 hours, live chat under 2 minutes, and social media within 1 hour.</p>
+        <ul class="practice-tips" id="pdTips">
+          <li>Email: respond within 24 hours, resolve within 48</li>
+          <li>Live chat: first response under 90 seconds</li>
+          <li>Social: acknowledge within 60 minutes</li>
+          <li>Track SLA compliance in your helpdesk dashboard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: COMPLAINTS & RETURNS -->
+  <div class="slide" id="s7">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 02 — Section C</div>
+      <h2>Handling <span class="accent-word-c">Complaints</span> & Returns</h2>
+    </div>
+    <div class="process-flow">
+      <div class="process-step">
+        <span class="step-icon">📥</span>
+        <h4>Receive</h4>
+        <p>Acknowledge within SLA. Log all details in ticketing system.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <span class="step-icon">🔍</span>
+        <h4>Investigate</h4>
+        <p>Review order history, verify issue, assess root cause thoroughly.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <span class="step-icon">🤝</span>
+        <h4>Empathize</h4>
+        <p>Acknowledge feelings, own the problem, avoid blame-shifting.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <span class="step-icon">🛠️</span>
+        <h4>Resolve</h4>
+        <p>Offer refund, replacement, or credit. Go beyond expectations.</p>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step">
+        <span class="step-icon">🔄</span>
+        <h4>Follow Up</h4>
+        <p>Confirm satisfaction, prevent recurrence, update internal processes.</p>
+      </div>
+    </div>
+    <div class="returns-box">
+      <div class="returns-col">
+        <h4>POLICY DESIGN</h4>
+        <ul>
+          <li>30–60 day return windows</li>
+          <li>Free returns build confidence</li>
+          <li>Clear eligibility criteria</li>
+          <li>No-questions-asked for low-value items</li>
+        </ul>
+      </div>
+      <div class="returns-col">
+        <h4>PROCESS EFFICIENCY</h4>
+        <ul>
+          <li>Self-service return portals</li>
+          <li>Pre-printed return labels</li>
+          <li>Instant refund on drop-off</li>
+          <li>Real-time return tracking</li>
+        </ul>
+      </div>
+      <div class="returns-col">
+        <h4>TURNING IT AROUND</h4>
+        <ul>
+          <li>Offer exchanges over refunds</li>
+          <li>Loyalty points as compensation</li>
+          <li>Personalised win-back email</li>
+          <li>Collect feedback for improvement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: LOYALTY PROGRAMS -->
+  <div class="slide" id="s8">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 03 — Section A</div>
+      <h2>Loyalty Programs <span class="accent-word-c">& Incentives</span></h2>
+    </div>
+    <div class="loyalty-grid">
+      <div class="loyalty-card">
+        <div class="loyalty-tier">POPULAR</div>
+        <span class="card-icon">⭐</span>
+        <h4>Points-Based Programs</h4>
+        <p>Customers earn points per purchase, redeemable for discounts or free products. Simple to understand and gamify.</p>
+        <ul>
+          <li>1 point per $1 spent</li>
+          <li>Bonus points on birthdays</li>
+          <li>Redemption thresholds create urgency</li>
+          <li>Partner earn opportunities</li>
+        </ul>
+      </div>
+      <div class="loyalty-card">
+        <div class="loyalty-tier">HIGH VALUE</div>
+        <span class="card-icon">💎</span>
+        <h4>Tiered Membership</h4>
+        <p>Bronze → Silver → Gold status tiers with escalating benefits. Creates aspiration and increases spend-per-customer.</p>
+        <ul>
+          <li>Free shipping at Silver tier</li>
+          <li>Early access at Gold level</li>
+          <li>Dedicated support for VIPs</li>
+          <li>Annual status challenges</li>
+        </ul>
+      </div>
+      <div class="loyalty-card">
+        <div class="loyalty-tier">GROWING</div>
+        <span class="card-icon">🌐</span>
+        <h4>Referral & Community</h4>
+        <p>Reward customers who bring others. Community programs build brand ambassadors and lower CAC significantly.</p>
+        <ul>
+          <li>$10–$20 referral credits</li>
+          <li>UGC incentive campaigns</li>
+          <li>Private member communities</li>
+          <li>Affiliate program tiers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: PERSONALIZATION -->
+  <div class="slide" id="s9">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 03 — Section B</div>
+      <h2>Personalization <span class="accent-word">& Targeted</span> Marketing</h2>
+    </div>
+    <div class="personalization-layout">
+      <div class="persona-card">
+        <h3>The Marketing Funnel</h3>
+        <div class="funnel">
+          <div class="funnel-step">🔍 Awareness — Broad audience targeting & SEO</div>
+          <div class="funnel-step">💡 Interest — Retargeting & content marketing</div>
+          <div class="funnel-step">🛒 Consideration — Personalised emails & ads</div>
+          <div class="funnel-step">✅ Purchase — Cart recovery & offers</div>
+          <div class="funnel-step">🔁 Loyalty — Retention sequences</div>
+        </div>
+      </div>
+      <div class="tactics-stack">
+        <div class="tactic">
+          <div class="tactic-icon">📊</div>
+          <div>
+            <h5>Behavioral Segmentation</h5>
+            <p>Segment by browse history, purchase frequency, and category affinity to deliver relevant messages.</p>
+          </div>
+        </div>
+        <div class="tactic">
+          <div class="tactic-icon">📧</div>
+          <div>
+            <h5>Dynamic Email Campaigns</h5>
+            <p>Product recommendations, restock alerts, and personalised offers based on individual shopping patterns.</p>
+          </div>
+        </div>
+        <div class="tactic">
+          <div class="tactic-icon">🎯</div>
+          <div>
+            <h5>Paid Retargeting</h5>
+            <p>Reconnect with website visitors via Facebook, Google, and TikTok ads featuring the exact products viewed.</p>
+          </div>
+        </div>
+        <div class="tactic">
+          <div class="tactic-icon">🤖</div>
+          <div>
+            <h5>AI Recommendations</h5>
+            <p>"Frequently bought together," "customers also viewed," and next-best-product engines that boost AOV.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: REPEAT BUSINESS -->
+  <div class="slide" id="s10">
+    <div class="blob blob1"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Topic 03 — Section C</div>
+      <h2>Strategies for <span class="accent-word-b">Repeat Business</span></h2>
+    </div>
+    <div class="repeat-grid">
+      <div class="repeat-card">
+        <div class="repeat-metric">
+          <div class="repeat-metric-num">67%</div>
+          <div class="repeat-metric-label">higher spend from repeat vs new customers</div>
+        </div>
+        <h4>Post-Purchase Engagement</h4>
+        <ul>
+          <li>Thank-you emails with next purchase discounts</li>
+          <li>Delivery experience surveys</li>
+          <li>Product usage tips & tutorials</li>
+          <li>Cross-sell via personalised follow-ups</li>
+          <li>Replenishment reminders for consumables</li>
+        </ul>
+      </div>
+      <div class="repeat-card">
+        <div class="repeat-metric">
+          <div class="repeat-metric-num">5×</div>
+          <div class="repeat-metric-label">cheaper to retain than acquire customers</div>
+        </div>
+        <h4>Subscription & Auto-Replenish</h4>
+        <ul>
+          <li>Subscribe & save discounts (10–20%)</li>
+          <li>Flexible pause/skip options reduce churn</li>
+          <li>Bundle subscriptions for higher LTV</li>
+          <li>Exclusive subscriber-only products</li>
+          <li>Gifting subscriptions as a feature</li>
+        </ul>
+      </div>
+      <div class="repeat-card">
+        <div class="repeat-metric">
+          <div class="repeat-metric-num">25%</div>
+          <div class="repeat-metric-label">profit increase from 5% retention improvement</div>
+        </div>
+        <h4>Re-engagement Campaigns</h4>
+        <ul>
+          <li>Win-back flows for lapsed customers</li>
+          <li>"We miss you" personalised offers</li>
+          <li>New collection / product launch alerts</li>
+          <li>Seasonal promotions to past buyers</li>
+          <li>SMS & push for high-intent moments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: SUMMARY -->
+  <div class="slide" id="s11">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="slide-header">
+      <div class="eyebrow">Recap</div>
+      <h2>Key <span class="accent-word">Takeaways</span></h2>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="sum-num" style="color:var(--accent1)">01</div>
+        <h3>CX is Competitive Advantage</h3>
+        <ul>
+          <li>Speed, simplicity & mobile-first design</li>
+          <li>Frictionless navigation and checkout</li>
+          <li>Fast, reliable fulfillment</li>
+          <li>Continuous UX testing and iteration</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <div class="sum-num" style="color:var(--accent3)">02</div>
+        <h3>Service Builds Trust</h3>
+        <ul>
+          <li>Omnichannel support availability</li>
+          <li>Empathy-driven, SLA-backed responses</li>
+          <li>Easy, transparent returns process</li>
+          <li>Every complaint is a growth opportunity</li>
+        </ul>
+      </div>
+      <div class="summary-card">
+        <div class="sum-num" style="color:var(--accent2)">03</div>
+        <h3>Loyalty Multiplies Revenue</h3>
+        <ul>
+          <li>Tiered programs drive aspirational spend</li>
+          <li>Personalization increases relevance</li>
+          <li>Subscriptions lock in lifetime value</li>
+          <li>Retained customers become advocates</li>
+        </ul>
+      </div>
+    </div>
+    <div class="closing-quote">
+      <span>"The most powerful marketing force is a customer who genuinely</span> loves your brand — treat every interaction as a chance to earn that."
+    </div>
+  </div>
+
+</div><!-- end deck -->
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+  <span class="slide-counter" id="counter">1 / 11</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  const slideLabels = [
+    'Introduction',
+    'Agenda',
+    'CX Importance & Factors',
+    'UX Improvement Strategies',
+    'Customer Service Channels',
+    'Support Best Practices',
+    'Complaints & Returns',
+    'Loyalty Programs',
+    'Personalization',
+    'Repeat Business',
+    'Summary'
+  ];
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('out');
+    setTimeout(() => { slides[current].classList.remove('out'); }, 600);
+
+    current = (index + total) % total;
+    slides[current].classList.add('active');
+
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+    document.getElementById('progressBar').style.width = `${((current + 1) / total) * 100}%`;
+    document.getElementById('slideLabel').textContent = slideLabels[current];
+  }
+
+  function changeSlide(dir) { goTo(current + dir); }
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Touch / swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1);
+  });
+
+  // Init
+  slides[0].classList.add('active');
+  document.getElementById('progressBar').style.width = `${(1 / total) * 100}%`;
+  document.getElementById('slideLabel').textContent = slideLabels[0];
+
+  // Best practices interactive
+  const practiceData = [
+    {
+      title: 'Set Clear Response SLAs',
+      desc: 'Define and communicate service level agreements for each channel. Customers expect email within 24 hours, live chat under 2 minutes, and social media within 1 hour.',
+      tips: ['Email: respond within 24 hours, resolve within 48', 'Live chat: first response under 90 seconds', 'Social media: acknowledge within 60 minutes', 'Track SLA compliance in your helpdesk dashboard']
+    },
+    {
+      title: 'Train with Empathy-First Frameworks',
+      desc: 'Equip agents with scripts and decision trees that prioritise acknowledging feelings before jumping to solutions. A customer who feels heard is more likely to stay loyal.',
+      tips: ['Use the HEART framework: Hear, Empathize, Acknowledge, Resolve, Thank', 'Role-play difficult conversations in training', 'Empower agents to offer solutions without manager approval', 'Recognise agents who receive positive CSAT scores']
+    },
+    {
+      title: 'Use Customer Data for Context',
+      desc: 'Integrate your helpdesk with your e-commerce platform so agents see full order history, previous contacts, and loyalty status before the first message.',
+      tips: ['Show order history in the ticket sidebar', 'Flag high-value or at-risk customers automatically', 'Track contact reasons to identify systemic issues', 'Use AI to suggest responses based on past resolutions']
+    },
+    {
+      title: 'Measure & Act on CSAT Scores',
+      desc: 'Send brief post-interaction surveys after every resolution. Track trends by agent, channel, and issue type to continuously improve service quality.',
+      tips: ['Aim for CSAT scores above 90%', 'Follow up on low scores within 24 hours', 'Share weekly team CSAT reports transparently', 'Tie performance reviews to customer satisfaction metrics']
+    },
+    {
+      title: 'Build a Proactive Support Culture',
+      desc: 'Don\'t wait for customers to complain. Monitor order delays, stock issues, and known bugs — then reach out before customers notice the problem.',
+      tips: ['Send proactive delay notifications before customers ask', 'Create incident communication templates for outages', 'Monitor social mentions for emerging issues', 'Build a customer success team for high-value accounts']
+    }
+  ];
+
+  function selectPractice(index) {
+    document.querySelectorAll('.practice-item').forEach((el, i) => el.classList.toggle('active', i === index));
+    const d = practiceData[index];
+    document.getElementById('pdTitle').textContent = d.title;
+    document.getElementById('pdDesc').textContent = d.desc;
+    const tipsEl = document.getElementById('pdTips');
+    tipsEl.innerHTML = d.tips.map(t => `<li>${t}</li>`).join('');
+  }
+</script>
+</body>
+</html>

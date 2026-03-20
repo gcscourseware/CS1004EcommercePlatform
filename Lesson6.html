@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal & Ethical Issues in E-Commerce</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c9a84c;
+    --gold-light: #e8d49a;
+    --red: #b03a2e;
+    --teal: #1a6b6b;
+    --teal-light: #2d9e9e;
+    --muted: #6b6560;
+    --border: rgba(13,13,13,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--ink);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    cursor: default;
+    user-select: none;
+  }
+
+  /* ── SLIDE CONTAINER ── */
+  #slides-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+    transform: translateY(28px);
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-28px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  /* ── NAVIGATION ── */
+  #nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(245,240,232,0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 48px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.35);
+  }
+  #nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 24px;
+    transition: all 0.2s;
+  }
+  #nav button:hover { background: var(--cream); color: var(--ink); }
+  #nav .arrow {
+    width: 32px; height: 32px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+  }
+  #nav .arrow:hover { background: var(--teal); transform: scale(1.08); }
+  #progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 40px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SLIDE DOTS ── */
+  #dots {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(245,240,232,0.3);
+    border: 1px solid rgba(245,240,232,0.5);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.5); }
+  .dot:hover { background: rgba(245,240,232,0.7); }
+
+  /* ══════════════════════════════════
+     SLIDE 0 – TITLE
+  ══════════════════════════════════ */
+  #slide-0 {
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    overflow: hidden;
+  }
+  #slide-0 .bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg, transparent, transparent 79px,
+      rgba(201,168,76,0.06) 79px, rgba(201,168,76,0.06) 80px
+    );
+    pointer-events: none;
+  }
+  #slide-0 .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    position: relative;
+    animation: fadeUp 0.8s 0.1s both;
+  }
+  #slide-0 h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    color: var(--paper);
+    text-align: center;
+    line-height: 1.1;
+    max-width: 820px;
+    position: relative;
+    animation: fadeUp 0.8s 0.25s both;
+  }
+  #slide-0 h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  #slide-0 .subtitle {
+    margin-top: 28px;
+    font-size: 16px;
+    color: rgba(245,240,232,0.55);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    text-align: center;
+    max-width: 540px;
+    animation: fadeUp 0.8s 0.4s both;
+    position: relative;
+  }
+  #slide-0 .divider {
+    width: 60px; height: 2px;
+    background: var(--gold);
+    margin: 32px auto 0;
+    animation: expandW 0.8s 0.55s both;
+    position: relative;
+  }
+  #slide-0 .toc-grid {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 680px;
+    width: 100%;
+    animation: fadeUp 0.8s 0.65s both;
+    position: relative;
+  }
+  #slide-0 .toc-item {
+    background: rgba(245,240,232,0.05);
+    border: 1px solid rgba(245,240,232,0.1);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  #slide-0 .toc-item:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  #slide-0 .toc-item .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  #slide-0 .toc-item .label {
+    font-size: 13px;
+    color: rgba(245,240,232,0.75);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════
+     SECTION INTRO SLIDE
+  ══════════════════════════════════ */
+  .section-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 10%;
+    overflow: hidden;
+  }
+  .si-legal { background: #0e1c1c; }
+  .si-ethical { background: #160c0c; }
+
+  .section-intro .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s 0.1s both;
+  }
+  .si-legal .section-label { color: var(--teal-light); }
+  .si-ethical .section-label { color: var(--gold); }
+
+  .section-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 900;
+    color: var(--paper);
+    line-height: 1.1;
+    max-width: 700px;
+    animation: fadeUp 0.7s 0.2s both;
+  }
+  .section-intro .desc {
+    margin-top: 24px;
+    font-size: 17px;
+    color: rgba(245,240,232,0.55);
+    max-width: 520px;
+    line-height: 1.65;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.32s both;
+  }
+  .section-intro .sub-list {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeUp 0.7s 0.44s both;
+  }
+  .section-intro .sub-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    color: rgba(245,240,232,0.65);
+  }
+  .sub-item .pip {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .si-legal .pip { background: var(--teal-light); }
+  .si-ethical .pip { background: var(--gold); }
+
+  .section-intro .big-number {
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(160px, 22vw, 280px);
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+    animation: fadeUp 0.7s 0.1s both;
+  }
+  .si-legal .big-number { color: rgba(29,107,107,0.1); }
+  .si-ethical .big-number { color: rgba(201,168,76,0.08); }
+
+  /* ══════════════════════════════════
+     CONTENT SLIDES
+  ══════════════════════════════════ */
+  .content-slide {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 100%;
+    overflow: hidden;
+  }
+  .cs-sidebar {
+    padding: 56px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid rgba(245,240,232,0.08);
+  }
+  .cs-legal { background: #0b1a1a; }
+  .cs-ethical { background: #140a0a; }
+  .cs-main {
+    padding: 56px 52px;
+    background: var(--paper);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cs-sidebar .slide-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s 0.05s both;
+  }
+  .cs-legal .slide-tag { color: var(--teal-light); }
+  .cs-ethical .slide-tag { color: var(--gold); }
+
+  .cs-sidebar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.25;
+    animation: fadeUp 0.6s 0.15s both;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 8px;
+  }
+
+  .cs-sidebar .sidebar-icon {
+    font-size: 52px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s 0.0s both;
+    display: block;
+    filter: grayscale(0.2);
+  }
+
+  .cs-sidebar .progress-bar {
+    height: 2px;
+    background: rgba(245,240,232,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: auto;
+    animation: fadeUp 0.6s 0.3s both;
+  }
+  .cs-sidebar .progress-bar .fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+  .cs-legal .fill { background: var(--teal-light); }
+  .cs-ethical .fill { background: var(--gold); }
+
+  /* main content area */
+  .cs-main .topic-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    animation: fadeUp 0.6s 0.1s both;
+  }
+  .cs-main h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 2.2vw, 28px);
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.2;
+    animation: fadeUp 0.6s 0.18s both;
+  }
+  .cs-main .lead {
+    font-size: 15px;
+    color: #3a3632;
+    line-height: 1.75;
+    font-weight: 400;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.26s both;
+  }
+
+  .info-cards {
+    display: grid;
+    gap: 14px;
+    animation: fadeUp 0.6s 0.34s both;
+  }
+  .info-cards.two-col { grid-template-columns: 1fr 1fr; }
+
+  .info-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 22px;
+    border-left: 3px solid transparent;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .ic-teal { border-color: var(--teal); }
+  .ic-red  { border-color: var(--red); }
+  .ic-gold { border-color: var(--gold); }
+  .ic-muted { border-color: #aaa8a3; }
+
+  .info-card h5 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  .info-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .info-card .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+  .badge-teal  { background: rgba(26,107,107,0.1); color: var(--teal); }
+  .badge-red   { background: rgba(176,58,46,0.1); color: var(--red); }
+  .badge-gold  { background: rgba(201,168,76,0.12); color: #8a6c1a; }
+  .badge-muted { background: rgba(0,0,0,0.06); color: var(--muted); }
+
+  .law-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--ink);
+    margin: 3px 4px 3px 0;
+  }
+  .law-tag::before { content: '§'; color: var(--teal); font-size: 12px; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #f0f9f9 0%, #e8f5f5 100%);
+    border: 1px solid rgba(26,107,107,0.2);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-top: 16px;
+    animation: fadeUp 0.6s 0.42s both;
+  }
+  .highlight-box.gold-box {
+    background: linear-gradient(135deg, #fdf8ec 0%, #f8f0d8 100%);
+    border-color: rgba(201,168,76,0.25);
+  }
+  .highlight-box p {
+    font-size: 13.5px;
+    color: #2a3a3a;
+    line-height: 1.65;
+  }
+  .highlight-box.gold-box p { color: #3a2e10; }
+
+  /* IP visual */
+  .ip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .ip-box {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .ip-box .icon { font-size: 32px; margin-bottom: 10px; }
+  .ip-box h5 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .ip-box p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ethical slides specific */
+  .principle-list { display: flex; flex-direction: column; gap: 14px; animation: fadeUp 0.6s 0.3s both; }
+  .principle-item {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .principle-item .pi-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold-light);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 32px;
+  }
+  .principle-item h5 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 5px; }
+  .principle-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Transparency trust */
+  .trust-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .metric-box {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-box .m-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric-box .m-label { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .metric-box .m-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .metric-box:nth-child(1) .m-val, .metric-box:nth-child(1) .m-bar { color: var(--teal); background: var(--teal); }
+  .metric-box:nth-child(2) .m-val, .metric-box:nth-child(2) .m-bar { color: var(--red); background: var(--red); }
+  .metric-box:nth-child(3) .m-val, .metric-box:nth-child(3) .m-bar { color: #7a5c1a; background: var(--gold); }
+  .metric-box:nth-child(4) .m-val, .metric-box:nth-child(4) .m-bar { color: #2d6e6e; background: var(--teal-light); }
+
+  /* Social responsibility */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .pillar {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+  .pillar .p-icon { font-size: 30px; margin-bottom: 10px; }
+  .pillar h5 { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  .pillar ul { list-style: none; }
+  .pillar ul li { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .pillar ul li::before { content: '— '; color: var(--gold); }
+
+  /* ══════════════════════════════════
+     CONCLUSION SLIDE
+  ══════════════════════════════════ */
+  #slide-8 {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px;
+  }
+  #slide-8 .bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 59px,
+      rgba(201,168,76,0.04) 59px, rgba(201,168,76,0.04) 60px
+    );
+    pointer-events: none;
+  }
+  #slide-8 .conclusion-inner {
+    position: relative;
+    max-width: 760px;
+    width: 100%;
+    text-align: center;
+  }
+  #slide-8 .c-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s 0.1s both;
+  }
+  #slide-8 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4.5vw, 54px);
+    font-weight: 900;
+    color: var(--paper);
+    line-height: 1.15;
+    animation: fadeUp 0.7s 0.2s both;
+  }
+  #slide-8 h2 em { font-style: italic; color: var(--gold); }
+  #slide-8 .c-body {
+    margin-top: 24px;
+    font-size: 15.5px;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.75;
+    font-weight: 300;
+    animation: fadeUp 0.7s 0.32s both;
+  }
+  #slide-8 .c-pillars {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    animation: fadeUp 0.7s 0.44s both;
+  }
+  #slide-8 .c-pillar {
+    background: rgba(245,240,232,0.05);
+    border: 1px solid rgba(245,240,232,0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  #slide-8 .c-pillar:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-3px);
+  }
+  #slide-8 .c-pillar .p-icon { font-size: 28px; margin-bottom: 10px; }
+  #slide-8 .c-pillar h5 { font-size: 14px; font-weight: 600; color: var(--paper); margin-bottom: 6px; }
+  #slide-8 .c-pillar p { font-size: 12px; color: rgba(245,240,232,0.45); line-height: 1.5; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes expandW {
+    from { transform: scaleX(0); transform-origin: left; }
+    to   { transform: scaleX(1); transform-origin: left; }
+  }
+
+  /* ── KEYBOARD HINT ── */
+  #hint {
+    position: fixed;
+    bottom: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.25);
+    text-transform: uppercase;
+    pointer-events: none;
+    animation: fadeUp 1s 1.2s both;
+  }
+</style>
+</head>
+<body>
+
+<div id="slides-wrapper">
+
+  <!-- ── SLIDE 0: TITLE ── -->
+  <div class="slide active" id="slide-0">
+    <div class="bg-lines"></div>
+    <div class="tag">E-Commerce Law &amp; Ethics</div>
+    <h1>Legal &amp; <em>Ethical</em> Issues<br>in E-Commerce</h1>
+    <p class="subtitle">A comprehensive overview of the frameworks, regulations, and moral responsibilities shaping modern digital commerce.</p>
+    <div class="divider"></div>
+    <div class="toc-grid">
+      <div class="toc-item" onclick="goToSlide(1)">
+        <span class="num">01 /</span>
+        <span class="label">Legal Considerations<br>for E-Commerce</span>
+      </div>
+      <div class="toc-item" onclick="goToSlide(5)">
+        <span class="num">02 /</span>
+        <span class="label">Ethical Issues<br>in E-Commerce</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 1: SECTION INTRO – LEGAL ── -->
+  <div class="slide" id="slide-1">
+    <div class="section-intro si-legal">
+      <div class="big-number">01</div>
+      <div class="section-label">Section One</div>
+      <h2>Legal Considerations<br>for E-Commerce</h2>
+      <p class="desc">Navigating the complex web of laws and regulations that govern how businesses operate, protect consumers, and manage digital assets online.</p>
+      <div class="sub-list">
+        <div class="sub-item"><div class="pip"></div>Consumer Protection Laws</div>
+        <div class="sub-item"><div class="pip"></div>Privacy Policies &amp; Data Protection</div>
+        <div class="sub-item"><div class="pip"></div>Intellectual Property Rights</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2: Consumer Protection ── -->
+  <div class="slide" id="slide-2">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-legal">
+        <div>
+          <div class="slide-tag">Legal · 1 of 3</div>
+          <span class="sidebar-icon">🛡️</span>
+          <h3>Consumer Protection Laws</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:33%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">What are Consumer Protection Laws?</div>
+        <h4>Safeguarding Buyers in the Digital Marketplace</h4>
+        <p class="lead">Consumer protection laws ensure that e-commerce businesses treat customers fairly, provide accurate information, and are held accountable for their products and services.</p>
+        <div class="info-cards two-col">
+          <div class="info-card ic-teal">
+            <div class="badge badge-teal">Federal</div>
+            <h5>FTC Act &amp; E-Commerce</h5>
+            <p>The FTC prohibits unfair or deceptive trade practices, requiring truthful advertising, clear return policies, and honest pricing disclosures online.</p>
+          </div>
+          <div class="info-card ic-red">
+            <div class="badge badge-red">Regulation</div>
+            <h5>Right to Refund &amp; Returns</h5>
+            <p>Many jurisdictions mandate cooling-off periods (e.g., 14 days in the EU) allowing consumers to cancel purchases made online without penalty.</p>
+          </div>
+          <div class="info-card ic-gold">
+            <div class="badge badge-gold">Disclosure</div>
+            <h5>Clear Pricing &amp; Hidden Fees</h5>
+            <p>Businesses must disclose all costs upfront. Drip pricing—revealing fees late in checkout—is considered deceptive and increasingly regulated.</p>
+          </div>
+          <div class="info-card ic-muted">
+            <div class="badge badge-muted">Enforcement</div>
+            <h5>Dispute Resolution</h5>
+            <p>Chargebacks, online mediation, and consumer protection agencies (e.g., ACCC, FCA) provide redress mechanisms for aggrieved customers.</p>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top:14px;">
+          <p>🔑 <strong>Key Principle:</strong> The consumer must always have clear, honest information before and after purchase — from product descriptions to delivery timelines and refund rights.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: Privacy & Data ── -->
+  <div class="slide" id="slide-3">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-legal">
+        <div>
+          <div class="slide-tag">Legal · 2 of 3</div>
+          <span class="sidebar-icon">🔐</span>
+          <h3>Privacy Policies &amp; Data Protection</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:66%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">Global Data Regulations</div>
+        <h4>GDPR, CCPA, and Beyond</h4>
+        <p class="lead">E-commerce platforms collect vast amounts of personal data. Landmark regulations now impose strict obligations on how this data is collected, processed, stored, and shared.</p>
+        <div style="margin-bottom: 16px; animation: fadeUp 0.6s 0.28s both;">
+          <span class="law-tag">GDPR (EU)</span>
+          <span class="law-tag">CCPA (California)</span>
+          <span class="law-tag">PDPA (Singapore)</span>
+          <span class="law-tag">LGPD (Brazil)</span>
+          <span class="law-tag">PIPEDA (Canada)</span>
+        </div>
+        <div class="info-cards" style="animation: fadeUp 0.6s 0.32s both;">
+          <div class="info-card ic-teal">
+            <div class="badge badge-teal">GDPR Core Rights</div>
+            <h5>Rights of Data Subjects</h5>
+            <p>Right to access, rectification, erasure ("right to be forgotten"), data portability, and objection to processing. Non-compliance can result in fines up to <strong>€20 million or 4% of global turnover</strong>.</p>
+          </div>
+          <div class="info-card ic-gold">
+            <div class="badge badge-gold">CCPA Mandates</div>
+            <h5>California Consumer Rights</h5>
+            <p>Consumers can know what personal data is collected, opt out of data sales, request deletion, and not be discriminated against for exercising their privacy rights.</p>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 14px;">
+          <p>⚖️ <strong>Compliance Essentials:</strong> Clear consent banners · Explicit opt-in for marketing · Encrypted data storage · Documented data processing agreements · Appointed Data Protection Officer (DPO) where required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: IP Rights ── -->
+  <div class="slide" id="slide-4">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-legal">
+        <div>
+          <div class="slide-tag">Legal · 3 of 3</div>
+          <span class="sidebar-icon">©️</span>
+          <h3>Intellectual Property Rights</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:100%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">Protecting Digital Assets</div>
+        <h4>IP in the E-Commerce Landscape</h4>
+        <p class="lead">Intellectual property rights protect the creative and commercial assets of online businesses — from brand identity and product design to software and digital content.</p>
+        <div class="ip-grid" style="animation: fadeUp 0.6s 0.28s both;">
+          <div class="ip-box">
+            <div class="icon">™️</div>
+            <h5>Trademarks</h5>
+            <p>Protect brand names, logos, and slogans. Critical for preventing counterfeiting and brand impersonation in online marketplaces.</p>
+          </div>
+          <div class="ip-box">
+            <div class="icon">📝</div>
+            <h5>Copyright</h5>
+            <p>Automatically protects original content: product images, website copy, videos, and software code from unauthorized reproduction.</p>
+          </div>
+          <div class="ip-box">
+            <div class="icon">💡</div>
+            <h5>Patents</h5>
+            <p>Cover novel inventions and technology. E-commerce businesses may hold patents on unique processes, algorithms, or UI innovations.</p>
+          </div>
+        </div>
+        <div class="info-cards two-col" style="margin-top: 12px; animation: fadeUp 0.6s 0.4s both;">
+          <div class="info-card ic-red">
+            <div class="badge badge-red">Key Issue</div>
+            <h5>Counterfeiting &amp; Infringement</h5>
+            <p>Platforms like Amazon &amp; eBay face pressure to remove counterfeit listings. Rights holders can use DMCA notices, brand registries, and legal action.</p>
+          </div>
+          <div class="info-card ic-muted">
+            <div class="badge badge-muted">Domain Names</div>
+            <h5>Cybersquatting</h5>
+            <p>Registering domain names resembling established brands to profit from resale is illegal under the ACPA and ICANN's UDRP dispute policy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: SECTION INTRO – ETHICAL ── -->
+  <div class="slide" id="slide-5">
+    <div class="section-intro si-ethical">
+      <div class="big-number">02</div>
+      <div class="section-label">Section Two</div>
+      <h2>Ethical Issues<br>in E-Commerce</h2>
+      <p class="desc">Beyond legal compliance, businesses must embrace moral responsibilities that build genuine trust, foster fairness, and contribute positively to society.</p>
+      <div class="sub-list">
+        <div class="sub-item"><div class="pip"></div>Ethical Marketing Practices</div>
+        <div class="sub-item"><div class="pip"></div>Ensuring Transparency &amp; Trust</div>
+        <div class="sub-item"><div class="pip"></div>Social Responsibility &amp; Sustainability</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 6: Ethical Marketing ── -->
+  <div class="slide" id="slide-6">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-ethical">
+        <div>
+          <div class="slide-tag">Ethics · 1 of 3</div>
+          <span class="sidebar-icon">📣</span>
+          <h3>Ethical Marketing Practices</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:33%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">Responsible Engagement</div>
+        <h4>Marketing That Respects People, Not Just Profits</h4>
+        <p class="lead">Ethical marketing goes beyond legal compliance — it means being honest, respecting autonomy, avoiding manipulation, and treating every customer with dignity.</p>
+        <div class="principle-list">
+          <div class="principle-item">
+            <div class="pi-num">1</div>
+            <div>
+              <h5>Honest &amp; Truthful Advertising</h5>
+              <p>Avoid exaggerated claims, fake scarcity ("Only 2 left!" when there are thousands), or misleading before/after comparisons. Real proof builds real loyalty.</p>
+            </div>
+          </div>
+          <div class="principle-item">
+            <div class="pi-num">2</div>
+            <div>
+              <h5>No Dark Patterns</h5>
+              <p>Dark patterns — hidden unsubscribe buttons, pre-checked add-ons, confirmshaming — manipulate users into decisions they wouldn't otherwise make and erode trust.</p>
+            </div>
+          </div>
+          <div class="principle-item">
+            <div class="pi-num">3</div>
+            <div>
+              <h5>Responsible Use of Personalization</h5>
+              <p>Using customer data to serve relevant content is acceptable; exploiting psychological vulnerabilities or addictive behaviors through targeted ads crosses an ethical line.</p>
+            </div>
+          </div>
+          <div class="principle-item">
+            <div class="pi-num">4</div>
+            <div>
+              <h5>Inclusive &amp; Non-Discriminatory Messaging</h5>
+              <p>Marketing should be respectful of all demographics. Algorithmic ad targeting must not illegally discriminate by race, gender, religion, or disability.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 7: Transparency & Trust ── -->
+  <div class="slide" id="slide-7">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-ethical">
+        <div>
+          <div class="slide-tag">Ethics · 2 of 3</div>
+          <span class="sidebar-icon">🤝</span>
+          <h3>Ensuring Transparency &amp; Trust</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:66%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">Building Long-Term Relationships</div>
+        <h4>Trust as a Competitive Advantage</h4>
+        <p class="lead">In e-commerce, customers cannot physically inspect products or meet sellers. Transparency — in pricing, data use, reviews, and operations — is the foundation of a lasting relationship.</p>
+        <div class="trust-metrics" style="animation: fadeUp 0.6s 0.3s both;">
+          <div class="metric-box">
+            <div class="m-val">81%</div>
+            <div class="m-label">of consumers say trust determines<br>their purchase decisions</div>
+            <div class="m-bar"></div>
+          </div>
+          <div class="metric-box">
+            <div class="m-val">67%</div>
+            <div class="m-label">stop buying after a single<br>bad trust experience</div>
+            <div class="m-bar"></div>
+          </div>
+          <div class="metric-box">
+            <div class="m-val">3×</div>
+            <div class="m-label">higher retention for brands<br>with high transparency scores</div>
+            <div class="m-bar"></div>
+          </div>
+          <div class="metric-box">
+            <div class="m-val">92%</div>
+            <div class="m-label">trust peer reviews as much<br>as personal recommendations</div>
+            <div class="m-bar"></div>
+          </div>
+        </div>
+        <div class="highlight-box gold-box" style="margin-top:14px; animation: fadeUp 0.6s 0.44s both;">
+          <p>🌐 <strong>Transparency Checklist:</strong> Clear pricing with no hidden fees · Authentic customer reviews (no fake or suppressed reviews) · Open data policies · Honest delivery timelines · Accessible customer service · Clear terms and conditions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 8 (index 7): Social Responsibility ── -->
+  <div class="slide" id="slide-sr">
+    <div class="content-slide">
+      <div class="cs-sidebar cs-ethical">
+        <div>
+          <div class="slide-tag">Ethics · 3 of 3</div>
+          <span class="sidebar-icon">🌍</span>
+          <h3>Social Responsibility &amp; Sustainability</h3>
+        </div>
+        <div>
+          <div class="progress-bar"><div class="fill" style="width:100%"></div></div>
+        </div>
+      </div>
+      <div class="cs-main">
+        <div class="topic-label">Beyond the Bottom Line</div>
+        <h4>E-Commerce's Role in a Sustainable Future</h4>
+        <p class="lead">Online businesses have significant power to influence environmental and social outcomes through their supply chains, packaging, labor practices, and community engagement.</p>
+        <div class="pillars" style="animation: fadeUp 0.6s 0.3s both;">
+          <div class="pillar">
+            <div class="p-icon">♻️</div>
+            <h5>Environmental</h5>
+            <ul>
+              <li>Eco-friendly packaging</li>
+              <li>Carbon-neutral shipping</li>
+              <li>Green data centers</li>
+              <li>Circular economy models</li>
+            </ul>
+          </div>
+          <div class="pillar">
+            <div class="p-icon">👥</div>
+            <h5>Social</h5>
+            <ul>
+              <li>Fair labor practices</li>
+              <li>Supplier code of conduct</li>
+              <li>Digital accessibility (WCAG)</li>
+              <li>Community investment</li>
+            </ul>
+          </div>
+          <div class="pillar">
+            <div class="p-icon">🏛️</div>
+            <h5>Governance</h5>
+            <ul>
+              <li>Anti-corruption policies</li>
+              <li>Diverse leadership</li>
+              <li>Transparent reporting</li>
+              <li>Ethical AI use</li>
+            </ul>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top:14px; animation: fadeUp 0.6s 0.46s both;">
+          <p>📦 <strong>Did you know?</strong> E-commerce returns generate roughly 24 million metric tons of CO₂ globally each year. Ethical businesses are redesigning return policies and packaging to minimize this environmental impact.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 9: CONCLUSION ── -->
+  <div class="slide" id="slide-conclusion">
+    <div class="bg-lines"></div>
+    <div class="conclusion-inner">
+      <div class="c-tag">Conclusion</div>
+      <h2>Compliance is the Floor.<br><em>Ethics</em> is the Ceiling.</h2>
+      <p class="c-body">
+        Thriving in e-commerce requires more than following the law. Businesses that genuinely protect consumers, respect privacy, honour intellectual property, market honestly, operate transparently, and take sustainability seriously will not just avoid penalties — they will build the lasting trust that drives long-term growth.
+      </p>
+      <div class="c-pillars">
+        <div class="c-pillar">
+          <div class="p-icon">⚖️</div>
+          <h5>Stay Compliant</h5>
+          <p>Know and follow applicable laws across all markets you operate in</p>
+        </div>
+        <div class="c-pillar">
+          <div class="p-icon">🤝</div>
+          <h5>Build Trust</h5>
+          <p>Radical transparency and honest practices outperform short-term manipulation</p>
+        </div>
+        <div class="c-pillar">
+          <div class="p-icon">🌿</div>
+          <h5>Think Long-Term</h5>
+          <p>Sustainable, socially responsible operations create durable competitive advantage</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end slides-wrapper -->
+
+<!-- Navigation -->
+<div id="nav">
+  <button onclick="goToSlide(0)">Menu</button>
+  <button class="arrow" id="btn-prev" onclick="prevSlide()">←</button>
+  <span id="progress-text">1 / 9</span>
+  <button class="arrow" id="btn-next" onclick="nextSlide()">→</button>
+</div>
+
+<!-- Dots -->
+<div id="dots"></div>
+
+<div id="hint">← → Arrow keys to navigate</div>
+
+<script>
+  const slideIds = [
+    'slide-0','slide-1','slide-2','slide-3','slide-4',
+    'slide-5','slide-6','slide-7','slide-sr','slide-conclusion'
+  ];
+  const slides = slideIds.map(id => document.getElementById(id));
+  let current = 0;
+
+  // Build dots
+  const dotsContainer = document.getElementById('dots');
+  slideIds.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d,i) => {
+      d.className = 'dot' + (i === current ? ' active' : '');
+    });
+  }
+
+  function updateProgress() {
+    document.getElementById('progress-text').textContent = `${current + 1} / ${slides.length}`;
+  }
+
+  function goToSlide(idx) {
+    if (idx === current) return;
+    slides[current].classList.add('exit');
+    slides[current].classList.remove('active');
+    setTimeout(() => slides[current > idx ? idx + 1 : current].classList.remove('exit'), 400);
+    
+    // Clean up old slide after transition
+    const oldSlide = slides[current];
+    setTimeout(() => oldSlide.classList.remove('exit'), 400);
+
+    current = Math.max(0, Math.min(idx, slides.length - 1));
+    slides[current].classList.add('active');
+    updateDots();
+    updateProgress();
+
+    // Restart animations by forcing reflow
+    slides[current].querySelectorAll('[style*="animation"]').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+  }
+
+  function nextSlide() { if (current < slides.length - 1) goToSlide(current + 1); }
+  function prevSlide() { if (current > 0) goToSlide(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevSlide();
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx < 0 ? nextSlide() : prevSlide(); }
+  });
+
+  updateProgress();
+</script>
+</body>
+</html>
